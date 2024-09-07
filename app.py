@@ -3,63 +3,74 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# Cargar datos
+# Cargar los datos del archivo CSV
 df_test = pd.read_csv('test_industria_con_nombres.csv')
 
-# Seleccionar el nombre del estudiante para mostrar resultados
-st.title("Recomendador de Carrera - Resultados del Test")
-nombre_seleccionado = st.selectbox("Selecciona un estudiante", df_test['Nombre'])
+# Mostrar los nombres de las columnas para verificar
+st.write("Columnas del DataFrame:")
+st.write(df_test.columns)
 
-# Filtrar los datos para el estudiante seleccionado
+# Selección del estudiante
+nombre_seleccionado = st.selectbox('Selecciona un estudiante', df_test['Nombre'])
+
+# Filtrar los datos del estudiante seleccionado
 datos_estudiante = df_test[df_test['Nombre'] == nombre_seleccionado]
 
-# Mostrar los datos principales del estudiante
-st.subheader(f"Datos del estudiante: {nombre_seleccionado}")
-st.write(datos_estudiante[['Edad', 'Sexo', 'Carrera 1 (más alta)']])
+# Verificar si hay datos para el estudiante seleccionado
+if not datos_estudiante.empty:
+    st.write(f"Datos del estudiante: {nombre_seleccionado}")
 
-# Gráfico de barras para mostrar los intereses del estudiante
-areas_interes = ['Técnico-manual', 'Científico-investigador', 'Artístico-creativo',
-                 'Social-asistencial', 'Empresarial-persuasivo', 'Oficinista-administrativo', 'Cibertalentos']
+    # Definir las columnas de interés (asegúrate de que estas columnas existan en el CSV)
+    areas_interes = [
+        'Técnico-manual', 
+        'Científico-investigador', 
+        'Artístico-creativo', 
+        'Social-asistencial', 
+        'Empresarial-persuasivo', 
+        'Oficinista-administrativo', 
+        'Cibertalentos'
+    ]
 
-st.subheader("Áreas de Interés")
-puntajes_interes = datos_estudiante[areas_interes].mean()
+    # Verificar si las columnas existen en los datos
+    if all(col in df_test.columns for col in areas_interes):
+        # Calcular los puntajes promedio de las áreas de interés
+        puntajes_interes = datos_estudiante[areas_interes].mean()
 
-plt.figure(figsize=(10, 5))
-sns.barplot(x=puntajes_interes.index, y=puntajes_interes.values, palette='coolwarm')
-plt.title(f"Áreas de Interés de {nombre_seleccionado}")
-plt.ylabel('Puntaje')
-plt.xticks(rotation=45)
-st.pyplot(plt)
+        # Mostrar los puntajes de las áreas de interés
+        st.write("Áreas de Interés y Puntajes:")
+        st.write(puntajes_interes)
 
-# Mostrar la carrera recomendada con los datos de la industria
-st.subheader("Carrera Recomendada y Datos de la Industria")
-carrera_recomendada = datos_estudiante['Carrera 1 (más alta)'].values[0]
-st.write(f"Carrera recomendada: **{carrera_recomendada}**")
-
-# Simular datos de la industria para la carrera recomendada
-datos_industria = {
-    'Carrera': ['Tecnología y Desarrollo de Software', 'Creatividad y Medios Digitales'],
-    'Proyección de crecimiento profesionales': [11, 9],
-    'Salario promedio (USD)': [116200, 97000],
-    'Tasa de graduación (%)': [85, 78]
-}
-
-df_industria = pd.DataFrame(datos_industria)
-datos_industria_carrera = df_industria[df_industria['Carrera'] == carrera_recomendada]
-
-if not datos_industria_carrera.empty:
-    st.write("Datos de la industria para la carrera recomendada:")
-    st.write(datos_industria_carrera)
-    
-    # Gráfico para visualizar los datos de la industria
-    fig, ax = plt.subplots(1, 2, figsize=(10, 5))
-
-    sns.barplot(x='Carrera', y='Proyección de crecimiento profesionales', data=datos_industria_carrera, ax=ax[0])
-    ax[0].set_title("Proyección de Crecimiento (%)")
-
-    sns.barplot(x='Carrera', y='Salario promedio (USD)', data=datos_industria_carrera, ax=ax[1])
-    ax[1].set_title("Salario Promedio")
-
-    st.pyplot(fig)
+        # Crear un gráfico de barras con los puntajes
+        plt.figure(figsize=(10, 5))
+        sns.barplot(x=puntajes_interes.index, y=puntajes_interes.values, palette='coolwarm')
+        plt.title(f"Áreas de Interés de {nombre_seleccionado}")
+        plt.ylabel('Puntaje')
+        plt.xticks(rotation=45)
+        st.pyplot(plt)
+    else:
+        st.error("Las columnas de áreas de interés no existen en el archivo CSV.")
 else:
-    st.write("No se encontraron datos de la industria para esta carrera.")
+    st.error("No se encontraron datos para el estudiante seleccionado.")
+
+# Datos de la industria para la carrera recomendada
+if 'Carrera 1 (más alta)' in df_test.columns:
+    carrera_recomendada = datos_estudiante['Carrera 1 (más alta)'].values[0]
+    st.write(f"Carrera recomendada: {carrera_recomendada}")
+
+    # Filtrar los datos de la industria para la carrera recomendada
+    datos_industria = df_test[df_test['Carrera 1 (más alta)'] == carrera_recomendada]
+
+    if not datos_industria.empty:
+        st.write(f"Datos de la industria para la carrera recomendada ({carrera_recomendada}):")
+        st.write(datos_industria[['Proyección de crecimiento profesionales', 'Valor de la industria Global']])
+
+        # Crear gráfico de proyección de crecimiento
+        plt.figure(figsize=(10, 5))
+        sns.barplot(x='Carrera 1 (más alta)', y='Proyección de crecimiento profesionales', data=datos_industria, palette='coolwarm')
+        plt.title(f"Proyección de crecimiento profesionales para {carrera_recomendada}")
+        plt.ylabel('Proyección de crecimiento (%)')
+        st.pyplot(plt)
+    else:
+        st.error("No se encontraron datos de la industria para la carrera recomendada.")
+else:
+    st.error("La columna 'Carrera 1 (más alta)' no existe en el archivo CSV.")
