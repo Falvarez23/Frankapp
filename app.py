@@ -3,8 +3,13 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# Cargar datos
-df_test = pd.read_csv('test_industria_con_nombres.csv')
+# Cargar datos desde GitHub (asegúrate de que el archivo esté correctamente en el repo)
+@st.cache_data
+def load_data():
+    url = "https://raw.githubusercontent.com/TuNombreDeUsuarioGitHub/streamlit-app/main/test_industria_con_nombres.csv"
+    return pd.read_csv(url)
+
+df_test = load_data()
 
 # Seleccionar el nombre del estudiante para mostrar resultados
 st.title("Recomendador de Carrera - Resultados del Test")
