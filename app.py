@@ -3,61 +3,46 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# Título de la aplicación
-st.title("Recomendador de Carrera - Resultados del Test")
+# Cargar los datos
+df_test = pd.read_csv('test_industria_con_nombres.csv')
 
-# Cargar el archivo CSV
-df = pd.read_csv('test_industria_con_nombres.csv')
-
-# Mostrar una selección de estudiantes
-nombre_seleccionado = st.selectbox('Selecciona un estudiante', df['Nombre'])
+# Seleccionar un estudiante
+estudiantes = df_test['Nombre'].unique()
+opcion_estudiante = st.selectbox('Selecciona un estudiante', estudiantes)
 
 # Filtrar datos del estudiante seleccionado
-datos_estudiante = df[df['Nombre'] == nombre_seleccionado]
+datos_estudiante = df_test[df_test['Nombre'] == opcion_estudiante].iloc[0]
 
-# Mostrar los datos del estudiante
-if not datos_estudiante.empty:
-    st.subheader(f"Datos del estudiante: {nombre_seleccionado}")
-    st.write(datos_estudiante)
+# Mostrar los datos básicos del estudiante
+st.subheader(f"Datos del estudiante: {opcion_estudiante}")
+st.write(f"Edad: {datos_estudiante['Edad']}")
+st.write(f"Sexo: {datos_estudiante['Sexo']}")
 
-    # Mostrar gráficamente las áreas de interés del estudiante
-    areas_interes = ['Técnico-manual', 'Científico-investigador', 'Artístico-creativo',
-                     'Social-asistencial', 'Empresarial-persuasivo', 'Oficinista-administrativo', 'Cibertalentos']
+# Áreas de interés (basado en las columnas del archivo)
+areas_interes = ['Técnico-manual', 'Científico-investigador', 'Artístico-creativo', 
+                 'Social-asistencial', 'Empresarial-persuasivo', 'Oficinista-administrativo', 'Cibertalentos']
 
-    puntajes_interes = datos_estudiante[areas_interes].T  # Transpuesta para graficar
-    puntajes_interes.columns = ['Puntaje']
+# Mostrar los puntajes de las áreas de interés
+puntajes_interes = datos_estudiante[areas_interes].T  # Transpuesta para graficar
+puntajes_interes.columns = ['Puntaje']
 
-    st.subheader("Áreas de Interés")
-    st.bar_chart(puntajes_interes)
+st.subheader("Áreas de Interés")
+st.bar_chart(puntajes_interes)
 
-    # Mostrar la carrera recomendada
-    carrera_recomendada = datos_estudiante['Carrera 1 (más alta)'].values[0]
-    st.subheader(f"Carrera recomendada: {carrera_recomendada}")
+# Mostrar la carrera recomendada
+st.subheader("Carrera recomendada y datos de la industria")
+st.write(f"Carrera recomendada: {datos_estudiante['Carrera 1 (más alta)']}")
 
-    # Filtrar datos de la industria para la carrera recomendada
-    datos_industria = df[df['Carrera 1 (más alta)'] == carrera_recomendada]
+# Filtrar datos de la industria relacionados con la carrera recomendada
+df_industria = df_test[df_test['Carrera 1 (más alta)'] == datos_estudiante['Carrera 1 (más alta)']]
 
-    if not datos_industria.empty:
-        st.subheader(f"Datos de la industria para {carrera_recomendada}")
-        st.write(datos_industria[['Valor de la industria Global', 'Proyección de crecimiento profesionales']])
-
-        # Graficar la proyección de crecimiento y el valor de la industria
-        fig, ax1 = plt.subplots(figsize=(8, 4))
-
-        # Gráfico de barra para proyección de crecimiento
-        sns.barplot(x=datos_industria['Carrera 1 (más alta)'], y=datos_industria['Proyección de crecimiento profesionales'], ax=ax1, color='lightblue')
-        ax1.set_ylabel('Proyección de crecimiento (%)')
-
-        # Gráfico de línea para valor de la industria
-        ax2 = ax1.twinx()
-        sns.lineplot(x=datos_industria['Carrera 1 (más alta)'], y=datos_industria['Valor de la industria Global'].str.replace('[\$,]', '', regex=True).astype(float), ax=ax2, color='orange')
-        ax2.set_ylabel('Valor de la industria Global ($ billones)')
-
-        plt.title(f"Proyección y Valor de la Industria para {carrera_recomendada}")
-        st.pyplot(fig)
-
-    else:
-        st.error(f"No se encontraron datos de la industria para {carrera_recomendada}")
-
+# Graficar los datos de la industria relacionados con la carrera recomendada
+if not df_industria.empty:
+    st.subheader("Datos de la industria para la carrera recomendada:")
+    
+    fig, ax = plt.subplots(figsize=(10, 6))
+    sns.barplot(x='Carrera 1 (más alta)', y='Proyección de crecimiento profesionales', data=df_industria, ax=ax)
+    plt.title('Proyección de crecimiento de la carrera en la industria')
+    st.pyplot(fig)
 else:
-    st.error(f"No se encontraron datos para {nombre_seleccionado}")
+    st.write("No se encontraron datos de la industria para la carrera recomendada.")
