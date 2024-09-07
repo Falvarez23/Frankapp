@@ -1,60 +1,64 @@
 import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
+import requests
+import json
 
-# Cargar los datos
-df_test = pd.read_csv('test_industria_con_nombres.csv')
+# Título de la App
+st.title("Recomendador de Carreras")
 
-# Mostrar los nombres de las columnas para verificar
-st.write("Columnas en el archivo:", df_test.columns)
+# 1. Entrada del Estudiante (datos ficticios o cargados desde un archivo)
+st.header("Datos del Estudiante")
 
-# Seleccionar un estudiante
-if 'Nombre' in df_test.columns:
+# Cargar CSV para simular datos del test
+uploaded_file = st.file_uploader("Sube el archivo con los datos del estudiante", type=["csv"])
+
+if uploaded_file is not None:
+    df_test = pd.read_csv(uploaded_file)
+    st.write("Datos del archivo cargado:", df_test)
+
+    # Selección del estudiante
     estudiantes = df_test['Nombre'].unique()
-    opcion_estudiante = st.selectbox('Selecciona un estudiante', estudiantes)
-    
-    # Filtrar datos del estudiante seleccionado
-    datos_estudiante = df_test[df_test['Nombre'] == opcion_estudiante].iloc[0]
-    
-    # Mostrar los datos básicos del estudiante
-    st.subheader(f"Datos del estudiante: {opcion_estudiante}")
-    st.write(f"Edad: {datos_estudiante['Edad']}")
-    st.write(f"Sexo: {datos_estudiante['Sexo']}")
+    selected_estudiante = st.selectbox("Selecciona un estudiante", estudiantes)
 
-    # Áreas de interés (asegúrate de que los nombres sean correctos)
-    areas_interes = ['Técnico-manual', 'Científico-investigador', 'Artístico-creativo', 
+    # Mostrar los datos del estudiante seleccionado
+    datos_estudiante = df_test[df_test['Nombre'] == selected_estudiante]
+    st.write(f"Datos del estudiante: {selected_estudiante}", datos_estudiante)
+
+    # Datos clave del test para el estudiante seleccionado
+    areas_interes = ['Técnico-manual', 'Científico-investigador', 'Artístico-creativo',
                      'Social-asistencial', 'Empresarial-persuasivo', 'Oficinista-administrativo', 'Cibertalentos']
 
-    # Verificar si esas columnas están presentes
-    for area in areas_interes:
-        if area not in df_test.columns:
-            st.write(f"Columna '{area}' no encontrada en el archivo CSV")
-        else:
-            # Mostrar los puntajes de las áreas de interés
-            puntajes_interes = datos_estudiante[areas_interes].T  # Transpuesta para graficar
-            puntajes_interes.columns = ['Puntaje']
-            st.subheader("Áreas de Interés")
-            st.bar_chart(puntajes_interes)
+    puntajes_interes = datos_estudiante[areas_interes].T  # Transpuesta para graficar
 
-    # Mostrar la carrera recomendada
-    if 'Carrera 1 (más alta)' in df_test.columns:
-        st.subheader("Carrera recomendada y datos de la industria")
-        st.write(f"Carrera recomendada: {datos_estudiante['Carrera 1 (más alta)']}")
+    # Visualización de los puntajes
+    st.bar_chart(puntajes_interes)
+
+    # 2. Llamada al modelo en Azure ML usando el endpoint (simulación)
+    st.header("Recomendación basada en el modelo")
+
+    if st.button("Obtener recomendación de carrera"):
+        # Aquí llamas a la API del modelo en Azure
+        api_url = "TU_ENDPOINT_DEL_MODELO"  # Cambia esto por el endpoint real de Azure
+        api_key = "TU_API_KEY"  # Coloca aquí tu API key
+        headers = {"Content-Type": "application/json", "Authorization": f"Bearer {api_key}"}
         
-        # Filtrar datos de la industria relacionados con la carrera recomendada
-        df_industria = df_test[df_test['Carrera 1 (más alta)'] == datos_estudiante['Carrera 1 (más alta)']]
+        # Prepara los datos para enviarlos al modelo
+        input_data = datos_estudiante.to_dict(orient="records")
+        response = requests.post(api_url, headers=headers, json={"data": input_data})
         
-        # Graficar los datos de la industria relacionados con la carrera recomendada
-        if not df_industria.empty:
-            st.subheader("Datos de la industria para la carrera recomendada:")
-            fig, ax = plt.subplots(figsize=(10, 6))
-            sns.barplot(x='Carrera 1 (más alta)', y='Proyección de crecimiento profesionales', data=df_industria, ax=ax)
-            plt.title('Proyección de crecimiento de la carrera en la industria')
-            st.pyplot(fig)
+        if response.status_code == 200:
+            resultado = response.json()
+            st.write("Carrera recomendada:", resultado['carrera'])
         else:
-            st.write("No se encontraron datos de la industria para la carrera recomendada.")
-    else:
-        st.write("Columna 'Carrera 1 (más alta)' no encontrada en el archivo CSV.")
-else:
-    st.write("Columna 'Nombre' no encontrada en el archivo CSV.")
+            st.write("Error en la llamada al modelo:", response.text)
+
+    # 3. Datos de la industria
+    st.header("Datos de la industria para la carrera recomendada")
+    df_industria = pd.read_csv('ruta_a_datos_de_la_industria.csv')  # Cargar datos de la industria
+    carrera_recomendada = datos_estudiante['Carrera 1 (más alta)'].values[0]
+    datos_industria = df_industria[df_industria['Carrera'] == carrera_recomendada]
+    st.write(f"Carrera recomendada: {carrera_recomendada}")
+    st.write("Datos de la industria para la carrera recomendada:", datos_industria)
+
+    # Visualización de la proyección de crecimiento
+    st.bar_chart(datos_industria[['Proyección de crecimiento profesionales']])
