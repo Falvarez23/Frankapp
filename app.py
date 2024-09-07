@@ -15,7 +15,7 @@ if uploaded_file is not None:
     st.write("Primeros datos del archivo:")
     st.write(data.head())
 
-    # Intereses profesionales por persona
+    # Intereses profesionales por persona (análisis individual)
     if st.checkbox("Mostrar informe de una persona aleatoria"):
         random_person = data.sample(1).iloc[0]
         
@@ -50,52 +50,46 @@ if uploaded_file is not None:
         st.write("3. **Artístico-creativo**: Explora profesiones en diseño o producción creativa.")
         st.write("4. **Social-asistencial**: Considera trabajos en asistencia social o psicología.")
 
-        # Gráfico de intereses
-        st.subheader("Distribución de Intereses")
-        fig, ax = plt.subplots()
-        intereses.plot(kind='bar', ax=ax)
-        ax.set_ylabel('Puntuación de Interés')
-        ax.set_title('Intereses Profesionales')
-        st.pyplot(fig)
+    # Métricas de las industrias (gráficos generales)
+    st.header("Análisis de las Industrias")
 
-    # Métricas adicionales
-    if st.checkbox("Mostrar distribución salarial"):
-        st.subheader("Distribución de Salarios")
+    # Métricas industriales generales
+    if st.checkbox("Mostrar distribución salarial por industria"):
+        st.subheader("Distribución de Salarios por Industria")
         salary_columns = ['Salario_Junior', 'Salario_Intermedio', 'Salario_Senior']
         
         fig, ax = plt.subplots()
-        data[salary_columns].plot(kind='box', ax=ax)
-        ax.set_title('Distribución de Salarios (Junior, Intermedio, Senior)')
-        ax.set_ylabel('Salario ($)')
+        data[salary_columns].mean().plot(kind='bar', ax=ax)
+        ax.set_title('Distribución de Salarios Promedio por Industria')
+        ax.set_ylabel('Salario Promedio ($)')
         st.pyplot(fig)
 
-    if st.checkbox("Mostrar tasa de rotación laboral"):
-        st.subheader("Tasa de Rotación Laboral")
+    if st.checkbox("Mostrar tasa de rotación laboral por industria"):
+        st.subheader("Tasa de Rotación Laboral por Industria")
         fig, ax = plt.subplots()
         data['Tasa_Rotacion_Laboral'] = data['Tasa_Rotacion_Laboral'].str.rstrip('%').astype('float') / 100.0
-        data.plot(kind='bar', x='Nombre', y='Tasa_Rotacion_Laboral', ax=ax)
-        ax.set_title('Tasa de Rotación Laboral por Persona')
+        data.groupby('Nombre')['Tasa_Rotacion_Laboral'].mean().plot(kind='bar', ax=ax)
+        ax.set_title('Tasa de Rotación Laboral Promedio por Industria')
         ax.set_ylabel('Tasa de Rotación (%)')
         st.pyplot(fig)
 
-    if st.checkbox("Mostrar crecimiento de vacantes"):
-        st.subheader("Crecimiento de Vacantes")
+    if st.checkbox("Mostrar crecimiento de vacantes por industria"):
+        st.subheader("Crecimiento de Vacantes por Industria")
         fig, ax = plt.subplots()
         data['Crecimiento_Vacantes'] = data['Crecimiento_Vacantes'].str.rstrip('%').astype('float') / 100.0
-        data.plot(kind='bar', x='Nombre', y='Crecimiento_Vacantes', ax=ax)
-        ax.set_title('Crecimiento de Vacantes por Persona')
+        data.groupby('Nombre')['Crecimiento_Vacantes'].mean().plot(kind='bar', ax=ax)
+        ax.set_title('Crecimiento de Vacantes Promedio por Industria')
         ax.set_ylabel('Crecimiento de Vacantes (%)')
         st.pyplot(fig)
 
-    if st.checkbox("Mostrar tasa de automatización"):
-        st.subheader("Tasa de Automatización")
+    if st.checkbox("Mostrar tasa de automatización por industria"):
+        st.subheader("Tasa de Automatización por Industria")
         fig, ax = plt.subplots()
         data['Tasa_Automatizacion'] = data['Tasa_Automatizacion'].str.rstrip('%').astype('float') / 100.0
-        data.plot(kind='bar', x='Nombre', y='Tasa_Automatizacion', ax=ax)
-        ax.set_title('Tasa de Automatización por Persona')
+        data.groupby('Nombre')['Tasa_Automatizacion'].mean().plot(kind='bar', ax=ax)
+        ax.set_title('Tasa de Automatización Promedio por Industria')
         ax.set_ylabel('Tasa de Automatización (%)')
         st.pyplot(fig)
 
 else:
     st.write("Por favor, sube un archivo CSV para continuar.")
-
