@@ -3,44 +3,63 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# Cargar el archivo de datos
-df = pd.read_csv('test_industria_con_nombres.csv')
+# Cargar datos
+df_test = pd.read_csv('test_industria_con_nombres.csv')
 
-# Mostrar los primeros datos
+# Seleccionar el nombre del estudiante para mostrar resultados
 st.title("Recomendador de Carrera - Resultados del Test")
-st.write("Datos del archivo (test_industria_con_nombres.csv):")
-st.write(df.head())
+nombre_seleccionado = st.selectbox("Selecciona un estudiante", df_test['Nombre'])
 
-# Seleccionar una carrera recomendada
-st.subheader("Carrera recomendada y datos de la industria")
-carrera_recomendada = df.iloc[0]['Carrera 1 (más alta)']
-st.write(f"Carrera recomendada: {carrera_recomendada}")
+# Filtrar los datos para el estudiante seleccionado
+datos_estudiante = df_test[df_test['Nombre'] == nombre_seleccionado]
 
-# Filtrar los datos de la industria para esa carrera
-datos_industria = df[df['Carrera 1 (más alta)'] == carrera_recomendada]
-st.write("Datos de la industria para la carrera recomendada:")
-st.write(datos_industria[['Proyeccion_Crecimiento_Industria', 'Valor_Industria_Global', 'Salario_Junior', 'Salario_Intermedio', 'Salario_Senior']])
+# Mostrar los datos principales del estudiante
+st.subheader(f"Datos del estudiante: {nombre_seleccionado}")
+st.write(datos_estudiante[['Edad', 'Sexo', 'Carrera 1 (más alta)']])
 
-# Gráfico de barras: Proyección de crecimiento de profesionales
-st.subheader("Proyección de crecimiento de profesionales por carrera")
+# Gráfico de barras para mostrar los intereses del estudiante
+areas_interes = ['Técnico-manual', 'Científico-investigador', 'Artístico-creativo',
+                 'Social-asistencial', 'Empresarial-persuasivo', 'Oficinista-administrativo', 'Cibertalentos']
+
+st.subheader("Áreas de Interés")
+puntajes_interes = datos_estudiante[areas_interes].mean()
+
 plt.figure(figsize=(10, 5))
-sns.barplot(x='Carrera 1 (más alta)', y='Proyección de crecimiento profesionales', data=df)
-plt.title('Proyección de Crecimiento Profesionales')
+sns.barplot(x=puntajes_interes.index, y=puntajes_interes.values, palette='coolwarm')
+plt.title(f"Áreas de Interés de {nombre_seleccionado}")
+plt.ylabel('Puntaje')
 plt.xticks(rotation=45)
 st.pyplot(plt)
 
-# Gráfico de líneas: Comparación de salarios
-st.subheader("Comparación de Salarios (Junior, Intermedio, Senior)")
-plt.figure(figsize=(10, 5))
-sns.lineplot(data=df[['Salario_Junior', 'Salario_Intermedio', 'Salario_Senior']])
-plt.title('Evolución de los Salarios')
-plt.xlabel('Tipo de Salario')
-plt.ylabel('Valor en USD')
-st.pyplot(plt)
+# Mostrar la carrera recomendada con los datos de la industria
+st.subheader("Carrera Recomendada y Datos de la Industria")
+carrera_recomendada = datos_estudiante['Carrera 1 (más alta)'].values[0]
+st.write(f"Carrera recomendada: **{carrera_recomendada}**")
 
-# Gráfico de pastel: Distribución de industrias por países
-st.subheader("Distribución de la industria por países")
-plt.figure(figsize=(8, 8))
-df['País'].value_counts().plot.pie(autopct='%1.1f%%', startangle=90, cmap='Set3')
-plt.title('Distribución de la Industria por Países')
-st.pyplot(plt)
+# Simular datos de la industria para la carrera recomendada
+datos_industria = {
+    'Carrera': ['Tecnología y Desarrollo de Software', 'Creatividad y Medios Digitales'],
+    'Proyección de crecimiento profesionales': [11, 9],
+    'Salario promedio (USD)': [116200, 97000],
+    'Tasa de graduación (%)': [85, 78]
+}
+
+df_industria = pd.DataFrame(datos_industria)
+datos_industria_carrera = df_industria[df_industria['Carrera'] == carrera_recomendada]
+
+if not datos_industria_carrera.empty:
+    st.write("Datos de la industria para la carrera recomendada:")
+    st.write(datos_industria_carrera)
+    
+    # Gráfico para visualizar los datos de la industria
+    fig, ax = plt.subplots(1, 2, figsize=(10, 5))
+
+    sns.barplot(x='Carrera', y='Proyección de crecimiento profesionales', data=datos_industria_carrera, ax=ax[0])
+    ax[0].set_title("Proyección de Crecimiento (%)")
+
+    sns.barplot(x='Carrera', y='Salario promedio (USD)', data=datos_industria_carrera, ax=ax[1])
+    ax[1].set_title("Salario Promedio")
+
+    st.pyplot(fig)
+else:
+    st.write("No se encontraron datos de la industria para esta carrera.")
