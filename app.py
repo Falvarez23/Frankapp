@@ -31,7 +31,14 @@ if not datos_estudiante.empty:
         'Cibertalentos'
     ]
 
-    # Verificar si las columnas existen en los datos
+    # Verificar si las columnas existen en los datos y mostrar el mensaje si no existen
+    for col in areas_interes:
+        if col in df_test.columns:
+            st.write(f"Columna {col} existe en el archivo.")
+        else:
+            st.write(f"Columna {col} NO existe en el archivo.")
+
+    # Solo si todas las columnas existen se procederá a hacer los cálculos
     if all(col in df_test.columns for col in areas_interes):
         # Calcular los puntajes promedio de las áreas de interés
         puntajes_interes = datos_estudiante[areas_interes].mean()
@@ -48,7 +55,7 @@ if not datos_estudiante.empty:
         plt.xticks(rotation=45)
         st.pyplot(plt)
     else:
-        st.error("Las columnas de áreas de interés no existen en el archivo CSV.")
+        st.warning("Algunas columnas de áreas de interés no existen en el archivo CSV.")
 else:
     st.error("No se encontraron datos para el estudiante seleccionado.")
 
@@ -62,14 +69,17 @@ if 'Carrera 1 (más alta)' in df_test.columns:
 
     if not datos_industria.empty:
         st.write(f"Datos de la industria para la carrera recomendada ({carrera_recomendada}):")
-        st.write(datos_industria[['Proyección de crecimiento profesionales', 'Valor de la industria Global']])
+        if 'Proyección de crecimiento profesionales' in df_test.columns:
+            st.write(datos_industria[['Proyección de crecimiento profesionales', 'Valor de la industria Global']])
 
-        # Crear gráfico de proyección de crecimiento
-        plt.figure(figsize=(10, 5))
-        sns.barplot(x='Carrera 1 (más alta)', y='Proyección de crecimiento profesionales', data=datos_industria, palette='coolwarm')
-        plt.title(f"Proyección de crecimiento profesionales para {carrera_recomendada}")
-        plt.ylabel('Proyección de crecimiento (%)')
-        st.pyplot(plt)
+            # Crear gráfico de proyección de crecimiento
+            plt.figure(figsize=(10, 5))
+            sns.barplot(x='Carrera 1 (más alta)', y='Proyección de crecimiento profesionales', data=datos_industria, palette='coolwarm')
+            plt.title(f"Proyección de crecimiento profesionales para {carrera_recomendada}")
+            plt.ylabel('Proyección de crecimiento (%)')
+            st.pyplot(plt)
+        else:
+            st.write("La columna 'Proyección de crecimiento profesionales' no existe en el archivo CSV.")
     else:
         st.error("No se encontraron datos de la industria para la carrera recomendada.")
 else:
