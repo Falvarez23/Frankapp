@@ -3,84 +3,61 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# Cargar los datos del archivo CSV
-df_test = pd.read_csv('test_industria_con_nombres.csv')
+# Título de la aplicación
+st.title("Recomendador de Carrera - Resultados del Test")
 
-# Mostrar los nombres de las columnas para verificar
-st.write("Columnas del DataFrame:")
-st.write(df_test.columns)
+# Cargar el archivo CSV
+df = pd.read_csv('test_industria_con_nombres.csv')
 
-# Selección del estudiante
-nombre_seleccionado = st.selectbox('Selecciona un estudiante', df_test['Nombre'])
+# Mostrar una selección de estudiantes
+nombre_seleccionado = st.selectbox('Selecciona un estudiante', df['Nombre'])
 
-# Filtrar los datos del estudiante seleccionado
-datos_estudiante = df_test[df_test['Nombre'] == nombre_seleccionado]
+# Filtrar datos del estudiante seleccionado
+datos_estudiante = df[df['Nombre'] == nombre_seleccionado]
 
-# Verificar si hay datos para el estudiante seleccionado
+# Mostrar los datos del estudiante
 if not datos_estudiante.empty:
-    st.write(f"Datos del estudiante: {nombre_seleccionado}")
+    st.subheader(f"Datos del estudiante: {nombre_seleccionado}")
+    st.write(datos_estudiante)
 
-    # Definir las columnas de interés (asegúrate de que estas columnas existan en el CSV)
-    areas_interes = [
-        'Técnico-manual', 
-        'Científico-investigador', 
-        'Artístico-creativo', 
-        'Social-asistencial', 
-        'Empresarial-persuasivo', 
-        'Oficinista-administrativo', 
-        'Cibertalentos'
-    ]
+    # Mostrar gráficamente las áreas de interés del estudiante
+    areas_interes = ['Técnico-manual', 'Científico-investigador', 'Artístico-creativo',
+                     'Social-asistencial', 'Empresarial-persuasivo', 'Oficinista-administrativo', 'Cibertalentos']
 
-    # Verificar si las columnas existen en los datos y mostrar el mensaje si no existen
-    for col in areas_interes:
-        if col in df_test.columns:
-            st.write(f"Columna {col} existe en el archivo.")
-        else:
-            st.write(f"Columna {col} NO existe en el archivo.")
+    puntajes_interes = datos_estudiante[areas_interes].T  # Transpuesta para graficar
+    puntajes_interes.columns = ['Puntaje']
 
-    # Solo si todas las columnas existen se procederá a hacer los cálculos
-    if all(col in df_test.columns for col in areas_interes):
-        # Calcular los puntajes promedio de las áreas de interés
-        puntajes_interes = datos_estudiante[areas_interes].mean()
+    st.subheader("Áreas de Interés")
+    st.bar_chart(puntajes_interes)
 
-        # Mostrar los puntajes de las áreas de interés
-        st.write("Áreas de Interés y Puntajes:")
-        st.write(puntajes_interes)
-
-        # Crear un gráfico de barras con los puntajes
-        plt.figure(figsize=(10, 5))
-        sns.barplot(x=puntajes_interes.index, y=puntajes_interes.values, palette='coolwarm')
-        plt.title(f"Áreas de Interés de {nombre_seleccionado}")
-        plt.ylabel('Puntaje')
-        plt.xticks(rotation=45)
-        st.pyplot(plt)
-    else:
-        st.warning("Algunas columnas de áreas de interés no existen en el archivo CSV.")
-else:
-    st.error("No se encontraron datos para el estudiante seleccionado.")
-
-# Datos de la industria para la carrera recomendada
-if 'Carrera 1 (más alta)' in df_test.columns:
+    # Mostrar la carrera recomendada
     carrera_recomendada = datos_estudiante['Carrera 1 (más alta)'].values[0]
-    st.write(f"Carrera recomendada: {carrera_recomendada}")
+    st.subheader(f"Carrera recomendada: {carrera_recomendada}")
 
-    # Filtrar los datos de la industria para la carrera recomendada
-    datos_industria = df_test[df_test['Carrera 1 (más alta)'] == carrera_recomendada]
+    # Filtrar datos de la industria para la carrera recomendada
+    datos_industria = df[df['Carrera 1 (más alta)'] == carrera_recomendada]
 
     if not datos_industria.empty:
-        st.write(f"Datos de la industria para la carrera recomendada ({carrera_recomendada}):")
-        if 'Proyección de crecimiento profesionales' in df_test.columns:
-            st.write(datos_industria[['Proyección de crecimiento profesionales', 'Valor de la industria Global']])
+        st.subheader(f"Datos de la industria para {carrera_recomendada}")
+        st.write(datos_industria[['Valor de la industria Global', 'Proyección de crecimiento profesionales']])
 
-            # Crear gráfico de proyección de crecimiento
-            plt.figure(figsize=(10, 5))
-            sns.barplot(x='Carrera 1 (más alta)', y='Proyección de crecimiento profesionales', data=datos_industria, palette='coolwarm')
-            plt.title(f"Proyección de crecimiento profesionales para {carrera_recomendada}")
-            plt.ylabel('Proyección de crecimiento (%)')
-            st.pyplot(plt)
-        else:
-            st.write("La columna 'Proyección de crecimiento profesionales' no existe en el archivo CSV.")
+        # Graficar la proyección de crecimiento y el valor de la industria
+        fig, ax1 = plt.subplots(figsize=(8, 4))
+
+        # Gráfico de barra para proyección de crecimiento
+        sns.barplot(x=datos_industria['Carrera 1 (más alta)'], y=datos_industria['Proyección de crecimiento profesionales'], ax=ax1, color='lightblue')
+        ax1.set_ylabel('Proyección de crecimiento (%)')
+
+        # Gráfico de línea para valor de la industria
+        ax2 = ax1.twinx()
+        sns.lineplot(x=datos_industria['Carrera 1 (más alta)'], y=datos_industria['Valor de la industria Global'].str.replace('[\$,]', '', regex=True).astype(float), ax=ax2, color='orange')
+        ax2.set_ylabel('Valor de la industria Global ($ billones)')
+
+        plt.title(f"Proyección y Valor de la Industria para {carrera_recomendada}")
+        st.pyplot(fig)
+
     else:
-        st.error("No se encontraron datos de la industria para la carrera recomendada.")
+        st.error(f"No se encontraron datos de la industria para {carrera_recomendada}")
+
 else:
-    st.error("La columna 'Carrera 1 (más alta)' no existe en el archivo CSV.")
+    st.error(f"No se encontraron datos para {nombre_seleccionado}")
