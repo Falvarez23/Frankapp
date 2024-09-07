@@ -3,8 +3,8 @@ import requests
 import json
 
 # Configurar el endpoint y la API Key
-AZURE_ENDPOINT = "http://24b2f267-69fe-459b-a13e-d0942833b354.eastus2.azurecontainer.io/score"  # Reemplaza con tu URL del endpoint
-AZURE_API_KEY = "g2KD6q7U7ibu5KIsZcmCYJwcYs2NLpLj"  # Reemplaza con tu clave de API
+AZURE_ENDPOINT = "http://24b2f267-69fe-459b-a13e-d0942833b354.eastus2.azurecontainer.io/score"
+AZURE_API_KEY = "g2KD6q7U7ibu5KIsZcmCYJwcYs2NLpLj"
 
 # Función para realizar la solicitud al modelo
 def obtener_prediccion(datos_estudiante):
@@ -21,34 +21,24 @@ def obtener_prediccion(datos_estudiante):
         st.error(f"Error: {response.status_code} - {response.text}")
         return None
 
-# Función para preparar los datos del estudiante
-def preparar_datos_estudiante(estudiante):
-    datos = {
-        "Nombre": estudiante['nombre'],
-        "Edad": estudiante['edad'],
-        "Sexo": estudiante['sexo'],
-        # Agrega más campos necesarios
-    }
-    return datos
-
 # Interfaz de Streamlit
 st.title("Recomendador de Carrera - Resultados del Test")
 
-# Datos del estudiante (esto lo puedes cambiar según cómo obtienes los datos en tu app)
-estudiante_seleccionado = {
-    "nombre": "Juan Pérez",
-    "edad": 20,
-    "sexo": "M",
-    # Agrega más datos según tu app
+# Obtener datos del estudiante mediante input en Streamlit
+nombre = st.text_input("Nombre del estudiante", value="Juan Pérez")
+edad = st.slider("Edad", 16, 25, 20)  # Edad entre 16 y 25 años
+sexo = st.selectbox("Sexo", ["M", "F"])
+
+# Preparar los datos para el envío
+datos_estudiante = {
+    "nombre": nombre,
+    "edad": edad,
+    "sexo": sexo
 }
 
-# Prepara los datos para enviar al modelo
-datos_estudiante = preparar_datos_estudiante(estudiante_seleccionado)
-
-# Hacer la solicitud al modelo
-prediccion = obtener_prediccion(datos_estudiante)
-
-# Mostrar el resultado de la predicción
-if prediccion:
-    st.write("Predicción del modelo:")
-    st.json(prediccion)
+# Hacer la solicitud al modelo cuando el usuario presiona el botón
+if st.button("Obtener predicción"):
+    prediccion = obtener_prediccion(datos_estudiante)
+    if prediccion:
+        st.write("Predicción del modelo:")
+        st.json(prediccion)
