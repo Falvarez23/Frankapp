@@ -17,6 +17,10 @@ st.markdown(f"<h3 style='color: red;'>Carrera recomendada: {carrera_recomendada}
 # Filtrar los datos de la industria según la carrera recomendada
 datos_industria = df_test[df_test['Carrera 1 (más alta)'] == carrera_recomendada]
 
+# Convertir las columnas numéricas a su tipo correcto
+datos_industria['Proyección de crecimiento profesionales'] = pd.to_numeric(datos_industria['Proyección de crecimiento profesionales'], errors='coerce')
+datos_industria['Valor de la industria Global'] = pd.to_numeric(datos_industria['Valor de la industria Global'].str.replace('[\$,]', ''), errors='coerce')
+
 # Verificar si las columnas existen y no tienen valores nulos
 if 'Proyección de crecimiento profesionales' in datos_industria.columns and datos_industria['Proyección de crecimiento profesionales'].notnull().all():
     # Gráfico de crecimiento de la industria
