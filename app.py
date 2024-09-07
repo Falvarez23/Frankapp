@@ -1,55 +1,61 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
+import seaborn as sns
 
-# Título de la aplicación
-st.title("Recomendador de Carrera - Resultados del Test y Datos de la Industria")
+# Título y subtítulos con estilo
+st.markdown("<h1 style='text-align: center; color: blue;'>Recomendador de Carrera - Resultados del Test</h1>", unsafe_allow_html=True)
+st.markdown("<h2 style='text-align: center; color: black;'>Carrera recomendada y datos de la industria</h2>", unsafe_allow_html=True)
 
-# Leer el archivo test_industria_con_nombres.csv directamente
-uploaded_file = st.file_uploader("Sube el archivo test_industria_con_nombres.csv", type=["csv"])
+# Cargar los datos del archivo CSV
+df_test = pd.read_csv('test_industria_con_nombres.csv')
 
-if uploaded_file is not None:
-    df = pd.read_csv(uploaded_file)
+# Mostrar los primeros registros del archivo para referencia
+st.markdown("<h3 style='color: green;'>Datos del archivo (test_industria_con_nombres.csv):</h3>", unsafe_allow_html=True)
+st.dataframe(df_test.head())
 
-    # Mostrar los datos del archivo
-    st.write("### Datos del archivo (test_industria_con_nombres.csv):")
-    st.write(df)
-    
-    # Suponiendo que hay una columna 'Carrera 1 (más alta)' en el archivo
-    st.subheader("Carrera recomendada y datos de la industria")
-    
-    carrera_recomendada = df['Carrera 1 (más alta)'].iloc[0]  # Tomamos la primera carrera recomendada
-    st.write(f"Carrera recomendada: {carrera_recomendada}")
-    
-    # Filtrar los datos para la carrera recomendada
-    datos_industria_carrera = df[df['Carrera 1 (más alta)'] == carrera_recomendada]
-    
-    if not datos_industria_carrera.empty:
-        # Mostrar los datos filtrados
-        st.write("Datos de la industria para la carrera recomendada:")
-        st.write(datos_industria_carrera)
+# Selección de carrera recomendada
+carrera_recomendada = df_test['Carrera 1 (más alta)'].iloc[0]
+st.markdown(f"<h3 style='color: red;'>Carrera recomendada: {carrera_recomendada}</h3>", unsafe_allow_html=True)
 
-        # Gráfico de barras para comparar proyección de crecimiento y valor de la industria
-        st.subheader("Comparación de Crecimiento y Valor de la Industria")
-        fig, ax = plt.subplots()
-        
-        # Datos para el gráfico (proyección de crecimiento y valor de la industria)
-        ax.bar(['Proyección de Crecimiento'], datos_industria_carrera['Proyección de crecimiento profesionales'].values, label='Proyección de Crecimiento (%)')
-        ax.bar(['Valor de la Industria'], datos_industria_carrera['Valor de la industria Global'].values, label='Valor de la Industria (Billion USD)')
-        
-        ax.set_ylabel('Valores')
-        ax.set_title(f"Datos de la Industria para {carrera_recomendada}")
-        ax.legend()
+# Filtrar los datos de la industria según la carrera recomendada
+datos_industria = df_test[df_test['Carrera 1 (más alta)'] == carrera_recomendada]
 
-        # Mostrar gráfico en Streamlit
-        st.pyplot(fig)
+# Mostrar los datos de la industria
+st.markdown("<h4 style='color: purple;'>Datos de la industria para la carrera recomendada:</h4>", unsafe_allow_html=True)
+st.dataframe(datos_industria)
 
-        # Comparación de otras métricas, si es necesario
-        st.subheader("Otras métricas relevantes:")
-        st.write(f"Proyección de crecimiento de la industria: {datos_industria_carrera['Proyección de crecimiento profesionales'].values[0]}%")
-        st.write(f"Valor global de la industria en 2026: ${datos_industria_carrera['Valor de la industria Global'].values[0]} billion")
-    
-    else:
-        st.write("No se encontraron datos de la industria para la carrera recomendada.")
-else:
-    st.write("Por favor, sube el archivo test_industria_con_nombres.csv.")
+# Crear gráficos de los datos de la industria
+st.markdown("<h3 style='color: navy;'>Gráficos de la industria</h3>", unsafe_allow_html=True)
+
+# Gráfico de crecimiento de la industria
+st.markdown("<h4 style='color: orange;'>Proyección de Crecimiento (%)</h4>", unsafe_allow_html=True)
+fig, ax = plt.subplots()
+sns.barplot(x='Carrera 1 (más alta)', y='Proyección de crecimiento profesionales', data=datos_industria, ax=ax)
+ax.set_title('Proyección de Crecimiento de Profesionales por Carrera', fontsize=14)
+ax.set_xlabel('Carrera')
+ax.set_ylabel('Proyección de Crecimiento (%)')
+st.pyplot(fig)
+
+# Gráfico de valor de la industria global
+st.markdown("<h4 style='color: teal;'>Valor de la Industria Global ($)</h4>", unsafe_allow_html=True)
+fig2, ax2 = plt.subplots()
+sns.barplot(x='Carrera 1 (más alta)', y='Valor de la industria Global', data=datos_industria, ax=ax2)
+ax2.set_title('Valor de la Industria Global', fontsize=14)
+ax2.set_xlabel('Carrera')
+ax2.set_ylabel('Valor en Miles de Millones')
+st.pyplot(fig2)
+
+# Pie chart - Distribución de los campos en puntajes (Habilidades y Destrezas)
+st.markdown("<h4 style='color: brown;'>Distribución de Habilidades y Destrezas</h4>", unsafe_allow_html=True)
+habilidades = ['Técnico-manual', 'Científico-investigador', 'Artístico-creativo', 'Social-asistencial', 
+               'Empresarial-persuasivo', 'Oficinista-administrativo', 'Cibertalentos']
+puntajes = [df_test[habilidad].mean() for habilidad in habilidades]
+
+fig3, ax3 = plt.subplots()
+ax3.pie(puntajes, labels=habilidades, autopct='%1.1f%%', startangle=90, colors=sns.color_palette('Set2', len(habilidades)))
+ax3.axis('equal')  # Para que el gráfico sea un círculo perfecto
+st.pyplot(fig3)
+
+# Footer
+st.markdown("<h5 style='text-align: center; color: grey;'>Desarrollado por tu equipo</h5>", unsafe_allow_html=True)
