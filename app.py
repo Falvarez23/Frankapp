@@ -13,7 +13,14 @@ def obtener_prediccion(datos_estudiante):
         "Authorization": f"Bearer {AZURE_API_KEY}"
     }
 
-    response = requests.post(AZURE_ENDPOINT, headers=headers, json=datos_estudiante)
+    # El modelo espera que los datos estén dentro del campo "Inputs"
+    body = {
+        "Inputs": {
+            "data": [datos_estudiante]  # Asegúrate de que los datos van en formato de lista
+        }
+    }
+
+    response = requests.post(AZURE_ENDPOINT, headers=headers, json=body)
 
     if response.status_code == 200:
         return response.json()
@@ -31,9 +38,9 @@ sexo = st.selectbox("Sexo", ["M", "F"])
 
 # Preparar los datos para el envío
 datos_estudiante = {
-    "nombre": nombre,
-    "edad": edad,
-    "sexo": sexo
+    "Nombre": nombre,
+    "Edad": edad,
+    "Sexo": sexo
 }
 
 # Hacer la solicitud al modelo cuando el usuario presiona el botón
