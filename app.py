@@ -1,7 +1,6 @@
-
 import streamlit as st
 
-# Definimos las preguntas por área (ejemplo de dos áreas)
+# Definimos las preguntas por área
 preguntas = {
     "Tecnología y Desarrollo de Software": [
         "¿Te sientes atraído por el campo de la robótica y la automatización?",
@@ -17,6 +16,13 @@ preguntas = {
         "¿Te preocupa el impacto social de las tecnologías digitales?",
         "¿Disfrutas de analizar las tendencias del mercado digital?"
     ]
+}
+
+# Opciones de respuesta y los valores que corresponden a cada una
+opciones_respuesta = {
+    "Nunca": 0,
+    "A veces": 1,
+    "Siempre": 2
 }
 
 # Función para calcular el puntaje y la interpretación
@@ -38,21 +44,11 @@ st.title("Test de Intereses y Potenciales")
 # Inicializamos un diccionario para almacenar las respuestas del usuario
 respuestas_usuario = {}
 
-# Iteramos por cada área y mostramos las preguntas
+# Iteramos por cada área y mostramos las preguntas con opciones de respuesta
 for area, preguntas_area in preguntas.items():
     st.header(f"Área: {area}")
     respuestas = []
     for pregunta in preguntas_area:
-        respuesta = st.slider(pregunta, min_value=0, max_value=2, step=1, format="%d")
-        respuestas.append(respuesta)
-    respuestas_usuario[area] = respuestas
-
-# Botón para calcular los resultados
-if st.button("Calcular Resultados"):
-    st.subheader("Resultados del Test")
-    for area, respuestas_area in respuestas_usuario.items():
-        puntaje, interpretacion = calcular_puntaje_area(respuestas_area)
-        st.write(f"Área: {area}")
-        st.write(f"Puntaje total: {puntaje}")
-        st.write(f"Interpretación: {interpretacion}")
-        st.write("---")
+        respuesta = st.radio(pregunta, list(opciones_respuesta.keys()))
+        # Almacena el valor numérico de la respuesta seleccionada
+        respuestas​⬤
