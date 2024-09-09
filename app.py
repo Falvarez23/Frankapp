@@ -1,92 +1,42 @@
 import streamlit as st
-import requests
+import pandas as pd
+from openpyxl import load_workbook
 
-# Diccionario que relaciona preguntas con carreras (debes ajustar las relaciones)
-carreras_dict = {
-    "Tecnología y desarrollo de software": [1, 57, 38, 76, 19],
-    "Ciencias de la salud": [22, 41, 60, 79],
-    "Energías renovables": [23, 36, 42, 55, 80],
-    # Añade las demás relaciones entre carreras y preguntas aquí
-}
+# Título de la aplicación
+st.title("Formulario de Datos")
 
-# Lista completa de las 95 preguntas
-preguntas = [
-    "¿Te sientes atraído por el campo de la robótica y la automatización?",
-    "¿Te atrae la idea de utilizar herramientas digitales para expresar tu creatividad?",
-    "¿Te entusiasma la idea de contribuir al desarrollo de videojuegos?",
-    # Incluye todas las 95 preguntas completas aquí
-    # ...
-    "¿Te interesa investigar y desarrollar tecnologías innovadoras para el tratamiento y purificación del agua?",
-]
-
-# Función para calcular el puntaje de cada carrera
-def calcular_carrera(puntajes_respuestas):
-    puntajes_carrera = {}
-
-    # Inicializar puntaje por carrera
-    for carrera in carreras_dict:
-        puntajes_carrera[carrera] = 0
-
-    # Sumar los puntajes de cada carrera basado en las respuestas
-    for carrera, preguntas_carrera in carreras_dict.items():
-        for pregunta in preguntas_carrera:
-            puntaje = puntajes_respuestas.get(pregunta, 0)
-            puntajes_carrera[carrera] += puntaje
-
-    # Seleccionar la carrera con el puntaje más alto
-    carrera_recomendada = max(puntajes_carrera, key=puntajes_carrera.get)
-    return carrera_recomendada, puntajes_carrera
-
-# Interfaz de Streamlit
-st.title("Recomendador de Carrera - Responde las Preguntas")
-
-# Crear un diccionario para almacenar las respuestas del usuario
-puntajes_respuestas_estudiante = {}
-
-# Mostrar las preguntas y capturar las respuestas
-for i, pregunta in enumerate(preguntas, start=1):
-    respuesta = st.slider(f"Pregunta {i}: {pregunta}", 0, 10, 5)  # Respuesta en escala de 0 a 10
-    puntajes_respuestas_estudiante[i] = respuesta
-
-# Botón para calcular las puntuaciones y recomendar una carrera
-if st.button("Calcular Carrera"):
-    carrera_recomendada, puntajes_totales = calcular_carrera(puntajes_respuestas_estudiante)
+# Crear el formulario
+with st.form("my_form"):
+    nombre = st.text_input("Nombre:")
+    email = st.text_input("Correo electrónico:")
+    edad = st.number_input("Edad:", min_value=0, max_value=120)
     
-    st.subheader(f"Carrera recomendada: {carrera_recomendada}")
-    
-    st.subheader("Puntajes por carrera:")
-    for carrera, puntaje in puntajes_totales.items():
-        st.write(f"{carrera}: {puntaje}")
+    # Enviar los datos
+    submitted = st.form_submit_button("Enviar")
 
-# Función para enviar las respuestas al modelo de Azure
-def enviar_datos_a_azure(puntajes_respuestas):
-    # Configurar el endpoint y la API Key
-    AZURE_ENDPOINT = "http://<tu-url-de-azure>/score"  # Reemplaza con tu URL del endpoint
-    AZURE_API_KEY = "tu-api-key"  # Reemplaza con tu clave de API
+# Cuando se envían los datos
+if submitted:
+    # Crear un DataFrame con los datos
+    datos = pd.DataFrame({
+        "Nombre": [nombre],
+        "Correo": [email],
+        "Edad": [edad]
+    })
 
-    headers = {
-        "Content-Type": "application/json",
-        "Authorization": f"Bearer {AZURE_API_KEY}"
-    }
+    # Guardar los datos en un archivo Excel
+    try:
+        # Si el archivo ya existe, cargarlo y agregar datos
+        book = load_workbook("datos.xlsx")
+        writer = pd.ExcelWriter("datos.xlsx", engine="openpyxl")
+        writer.book = book
+        datos.to_excel(writer, index=False, header=False, startrow=writer.sheets['Sheet1'].max_row)
+        writer.save()
+        writer.close()
+    except FileNotFoundError:
+        # Si el archivo no existe, crearlo
+        datos.to_excel("datos.xlsx", index=False)
 
-    # Prepara los datos para enviar a Azure
-    data = {
-        "Inputs": {
-            "data": [puntajes_respuestas]  # Aquí envías los puntajes obtenidos
-        }
-    }
+    st.success("¡Datos guardados exitosamente!")
 
-    response = requests.post(AZURE_ENDPOINT, headers=headers, json=data)
-
-    if response.status_code == 200:
-        return response.json()
-    else:
-        st.error(f"Error: {response.status_code} - {response.text}")
-        return None
-
-# Botón para enviar los datos al modelo de Azure
-if st.button("Enviar a Azure"):
-    resultado = enviar_datos_a_azure(puntajes_respuestas_estudiante)
-    if resultado:
-        st.write("Resultado del modelo en Azure:")
-        st.json(resultado)
+    # Mostrar los datos en la app
+    st.dataframe(datos)
