@@ -2,21 +2,28 @@ import streamlit as st
 import pandas as pd
 
 # Título de la aplicación
-st.title("Visualización de archivo Excel")
+st.title("Simulación de Input de Datos desde Excel")
 
-# Cargar el archivo Excel
-uploaded_file = st.file_uploader("Sube tu archivo Excel", type=["xlsx"])
+# Subir archivo Excel
+uploaded_file = st.file_uploader("Sube tu archivo Excel para procesarlo como input", type=["xlsx"])
 
 if uploaded_file is not None:
     # Leer el archivo Excel
     df = pd.read_excel(uploaded_file)
 
-    # Mostrar el contenido del archivo
+    # Simular el uso de los datos como "input" en otra aplicación
+    st.write("Datos recibidos como 'input':")
     st.dataframe(df)
 
-    # Botón para descargar el archivo si lo deseas
-    st.download_button(
-        label="Descargar archivo Excel",
-        data=uploaded_file,
-        file_name="archivo_descargado.xlsx"
-    )
+    # Proceso de simulación: aquí podrías incluir cualquier lógica adicional
+    # de procesamiento de los datos como si fueran la entrada de otro sistema.
+    st.write("Procesando los datos...")
+
+    # Ejemplo de algún procesamiento simple
+    # Aquí puedes agregar tu propia lógica para procesar los datos del archivo Excel
+    st.write("Resumen de los datos:")
+    st.write(df.describe())
+
+    # Botón para confirmar el uso de estos datos como "input"
+    if st.button("Confirmar y procesar"):
+        st.success("Los datos han sido procesados correctamente.")
