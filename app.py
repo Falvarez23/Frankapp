@@ -74,6 +74,10 @@ def radar_chart(labels, values, title):
 
 # Función para crear un gráfico de barras
 def bar_chart(labels, values, title):
+    if len(labels) != len(values):
+        st.error("Error: Las etiquetas y los valores no tienen la misma longitud.")
+        return
+
     fig, ax = plt.subplots()
     ax.bar(labels, values, color='blue')
     ax.set_xlabel("Áreas")
@@ -138,11 +142,12 @@ if st.button("Calcular Resultados"):
     labels = list(puntajes.keys())
     values = list(puntajes.values())
     
-    st.subheader("Gráfica de Radar")
-    radar_chart(labels, values, "Gráfico de Radar - Puntajes por Área")
-    
-    st.subheader("Gráfico de Barras")
-    bar_chart(labels, values, "Gráfico de Barras - Puntajes por Área")
+    if len(labels) > 0 and len(values) > 0:
+        st.subheader("Gráfica de Radar")
+        radar_chart(labels, values, "Gráfico de Radar - Puntajes por Área")
 
-    st.subheader("Visualización de Red Neuronal")
-    neural_network_chart()
+        st.subheader("Gráfico de Barras")
+        bar_chart(labels, values, "Gráfico de Barras - Puntajes por Área")
+
+        st.subheader("Visualización de Red Neuronal")
+        neural_network_chart()
