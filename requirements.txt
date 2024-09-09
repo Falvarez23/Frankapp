@@ -4,4 +4,4 @@ numpy
 matplotlib
 seaborn
 requests
-pip install openpyxl
+openpyxl
