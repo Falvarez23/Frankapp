@@ -51,4 +51,15 @@ for area, preguntas_area in preguntas.items():
     for pregunta in preguntas_area:
         respuesta = st.radio(pregunta, list(opciones_respuesta.keys()))
         # Almacena el valor numérico de la respuesta seleccionada
-        respuestas​⬤
+        respuestas.append(opciones_respuesta[respuesta])
+    respuestas_usuario[area] = respuestas
+
+# Botón para calcular los resultados
+if st.button("Calcular Resultados"):
+    st.subheader("Resultados del Test")
+    for area, respuestas_area in respuestas_usuario.items():
+        puntaje, interpretacion = calcular_puntaje_area(respuestas_area)
+        st.write(f"Área: {area}")
+        st.write(f"Puntaje total: {puntaje}")
+        st.write(f"Interpretación: {interpretacion}")
+        st.write("---")
