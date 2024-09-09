@@ -1,42 +1,22 @@
 import streamlit as st
 import pandas as pd
-from openpyxl import load_workbook
 
 # Título de la aplicación
-st.title("Formulario de Datos")
+st.title("Visualización de archivo Excel")
 
-# Crear el formulario
-with st.form("my_form"):
-    nombre = st.text_input("Nombre:")
-    email = st.text_input("Correo electrónico:")
-    edad = st.number_input("Edad:", min_value=0, max_value=120)
-    
-    # Enviar los datos
-    submitted = st.form_submit_button("Enviar")
+# Cargar el archivo Excel
+uploaded_file = st.file_uploader("Sube tu archivo Excel", type=["xlsx"])
 
-# Cuando se envían los datos
-if submitted:
-    # Crear un DataFrame con los datos
-    datos = pd.DataFrame({
-        "Nombre": [nombre],
-        "Correo": [email],
-        "Edad": [edad]
-    })
+if uploaded_file is not None:
+    # Leer el archivo Excel
+    df = pd.read_excel(uploaded_file)
 
-    # Guardar los datos en un archivo Excel
-    try:
-        # Si el archivo ya existe, cargarlo y agregar datos
-        book = load_workbook("datos.xlsx")
-        writer = pd.ExcelWriter("datos.xlsx", engine="openpyxl")
-        writer.book = book
-        datos.to_excel(writer, index=False, header=False, startrow=writer.sheets['Sheet1'].max_row)
-        writer.save()
-        writer.close()
-    except FileNotFoundError:
-        # Si el archivo no existe, crearlo
-        datos.to_excel("datos.xlsx", index=False)
+    # Mostrar el contenido del archivo
+    st.dataframe(df)
 
-    st.success("¡Datos guardados exitosamente!")
-
-    # Mostrar los datos en la app
-    st.dataframe(datos)
+    # Botón para descargar el archivo si lo deseas
+    st.download_button(
+        label="Descargar archivo Excel",
+        data=uploaded_file,
+        file_name="archivo_descargado.xlsx"
+    )
