@@ -1,5 +1,6 @@
 import streamlit as st
 import matplotlib.pyplot as plt
+import numpy as np
 
 # Definimos las preguntas por área
 preguntas = {
@@ -45,6 +46,32 @@ def calcular_puntaje_area(respuestas):
         interpretacion = "Sin interés"
     return puntaje_total, interpretacion
 
+# Función para crear un gráfico de radar
+def radar_chart(labels, values, title):
+    num_vars = len(labels)
+
+    # Configurar el ángulo para los ejes de la gráfica
+    angles = np.linspace(0, 2 * np.pi, num_vars, endpoint=False).tolist()
+
+    # La gráfica necesita que las coordenadas estén cerradas, así que añadimos el primer valor al final
+    values += values[:1]
+    angles += angles[:1]
+
+    fig, ax = plt.subplots(figsize=(6, 6), subplot_kw=dict(polar=True))
+    ax.fill(angles, values, color='purple', alpha=0.25)
+    ax.plot(angles, values, color='purple', linewidth=2)
+
+    # Añadir etiquetas a cada eje
+    ax.set_yticklabels([])
+    ax.set_xticks(angles[:-1])
+    ax.set_xticklabels(labels)
+
+    # Añadir título
+    ax.set_title(title, size=15, color='purple', y=1.1)
+
+    # Mostrar la gráfica
+    st.pyplot(fig)
+
 # Título del test
 st.title("Test de Intereses y Potenciales")
 
@@ -75,12 +102,7 @@ if st.button("Calcular Resultados"):
         st.write("---")
         puntajes[area] = puntaje
 
-    # Crear gráfica de barras con Matplotlib
-    st.subheader("Gráfica de Puntajes por Área")
-    fig, ax = plt.subplots()
-    ax.bar(puntajes.keys(), puntajes.values())
-    ax.set_xlabel("Áreas")
-    ax.set_ylabel("Puntajes")
-    ax.set_title("Puntajes obtenidos por área")
-    plt.xticks(rotation=45, ha="right")
-    st.pyplot(fig)
+    # Crear gráfica de radar con los puntajes calculados
+    labels = list(puntajes.keys())
+    values = list(puntajes.values())
+    radar_chart(labels, values, "Gráfico de Radar - Puntajes por Área")
