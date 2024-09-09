@@ -2,6 +2,52 @@ import streamlit as st
 import matplotlib.pyplot as plt
 import numpy as np
 
+# Estilos personalizados con CSS
+st.markdown("""
+    <style>
+    /* Fondo de la página */
+    .main {
+        background-color: #F5F7FA;
+    }
+
+    /* Estilo de títulos */
+    h1, h2, h3 {
+        color: #22223B;
+        font-family: 'Helvetica', sans-serif;
+    }
+
+    /* Estilo para el botón "Adquirir Test" */
+    .stButton button:first-child {
+        background-color: #4B9AE3;
+        color: white;
+        border-radius: 10px;
+        border: 2px solid #4B9AE3;
+        padding: 10px 20px;
+        font-size: 16px;
+        margin-right: 10px;
+    }
+
+    /* Estilo para el botón "Ver Resultado" */
+    .stButton button:last-child {
+        background-color: white;
+        color: #4B9AE3;
+        border: 2px solid #4B9AE3;
+        border-radius: 10px;
+        padding: 10px 20px;
+        font-size: 16px;
+        margin-right: 10px;
+    }
+
+    /* Fondo de los contenedores */
+    .stContainer {
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
 # Mensaje de introducción
 def mostrar_introduccion():
     st.title("¡Sueña en grande, logra tus metas!")
@@ -15,8 +61,6 @@ def mostrar_introduccion():
 
         ¡Comienza ahora con nuestro test de exploración de carreras y descubre tu futuro!
     """)
-    if st.button("Adquirir Test"):
-        st.experimental_rerun()
 
 # Definimos las preguntas por área
 preguntas = {
@@ -95,7 +139,7 @@ def bar_chart(labels, values, title):
         return
 
     fig, ax = plt.subplots()
-    ax.bar(labels, values, color='blue')
+    ax.bar(labels, values, color='#4B9AE3')
     ax.set_xlabel("Áreas")
     ax.set_ylabel("Puntajes")
     ax.set_title(title)
@@ -161,20 +205,4 @@ if st.session_state['test_iniciado']:
             st.write(f"Área: {area}")
             st.write(f"Descripción: {descripcion}")
             st.write(f"Puntaje total: {puntaje}")
-            st.write(f"Interpretación: {interpretacion}")
-            st.write("---")
-            puntajes[area] = puntaje
-
-        # Crear gráfica de radar con los puntajes calculados
-        labels = list(puntajes.keys())
-        values = list(puntajes.values())
-
-        if len(labels) > 0 and len(values) > 0:
-            st.subheader("Gráfica de Radar")
-            radar_chart(labels, values, "Gráfico de Radar - Puntajes por Área")
-
-            st.subheader("Gráfico de Barras")
-            bar_chart(labels, values, "Gráfico de Barras - Puntajes por Área")
-
-            st.subheader("Visualización de Red Neuronal")
-            neural_network_chart()
+            st.write(f"
