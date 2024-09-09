@@ -46,64 +46,62 @@ def calcular_puntaje_area(respuestas):
         interpretacion = "Sin interés"
     return puntaje_total, interpretacion
 
-# Gráfico de radar
+# Función para crear un gráfico de radar
 def radar_chart(labels, values, title):
     num_vars = len(labels)
+
+    # Configurar el ángulo para los ejes de la gráfica
     angles = np.linspace(0, 2 * np.pi, num_vars, endpoint=False).tolist()
+
+    # La gráfica necesita que las coordenadas estén cerradas, así que añadimos el primer valor al final
     values += values[:1]
     angles += angles[:1]
 
     fig, ax = plt.subplots(figsize=(6, 6), subplot_kw=dict(polar=True))
     ax.fill(angles, values, color='purple', alpha=0.25)
     ax.plot(angles, values, color='purple', linewidth=2)
+
+    # Añadir etiquetas a cada eje
     ax.set_yticklabels([])
     ax.set_xticks(angles[:-1])
     ax.set_xticklabels(labels)
+
+    # Añadir título
     ax.set_title(title, size=15, color='purple', y=1.1)
+
+    # Mostrar la gráfica
     st.pyplot(fig)
 
-# Gráfico de barras apiladas
-def barra_apilada_chart(labels, values, title):
+# Función para crear un gráfico de barras
+def bar_chart(labels, values, title):
     fig, ax = plt.subplots()
-    ax.bar(labels, values, color=['#66b3ff','#99ff99','#ffcc99'])
+    ax.bar(labels, values, color='blue')
     ax.set_xlabel("Áreas")
     ax.set_ylabel("Puntajes")
     ax.set_title(title)
     plt.xticks(rotation=45, ha="right")
     st.pyplot(fig)
 
-# Gráfico de líneas
-def line_chart(labels, values, title):
-    fig, ax = plt.subplots()
-    ax.plot(labels, values, marker='o', linestyle='-', color='purple')
-    ax.set_xlabel("Áreas")
-    ax.set_ylabel("Puntajes")
-    ax.set_title(title)
-    plt.xticks(rotation=45, ha="right")
-    st.pyplot(fig)
+# Función para graficar una red neuronal simple
+def neural_network_chart():
+    fig, ax = plt.subplots(figsize=(6, 6))
 
-# Gráfico de tarta
-def pie_chart(labels, values, title):
-    fig, ax = plt.subplots()
-    ax.pie(values, labels=labels, autopct='%1.1f%%', startangle=90, colors=plt.cm.Purples(np.linspace(0.5, 1, len(values))))
-    ax.set_title(title)
-    st.pyplot(fig)
+    # Coordenadas para las capas de la red
+    layers = [3, 5, 2]  # Ejemplo de red con 3 neuronas de entrada, 5 en la oculta y 2 de salida
+    x_spacing = np.linspace(0, 1, len(layers))
 
-# Histograma
-def histograma_chart(values, title):
-    fig, ax = plt.subplots()
-    ax.hist(values, bins=[0, 2, 5, 8, 10], color='purple', alpha=0.7, rwidth=0.85)
-    ax.set_xlabel("Rangos de Puntajes")
-    ax.set_ylabel("Frecuencia")
-    ax.set_title(title)
-    st.pyplot(fig)
+    for i, layer in enumerate(layers):
+        y_spacing = np.linspace(0, 1, layer)
+        ax.scatter([x_spacing[i]] * layer, y_spacing, s=100)
 
-# Gráfico de barras horizontales
-def barras_horizontales(labels, values, title):
-    fig, ax = plt.subplots()
-    ax.barh(labels, values, color='purple')
-    ax.set_xlabel("Puntajes")
-    ax.set_title(title)
+        # Dibujar conexiones entre las capas
+        if i > 0:
+            for prev_y in np.linspace(0, 1, layers[i-1]):
+                for curr_y in y_spacing:
+                    ax.plot([x_spacing[i-1], x_spacing[i]], [prev_y, curr_y], 'k-', lw=0.5)
+
+    ax.set_title("Visualización de Red Neuronal")
+    ax.axis('off')
     st.pyplot(fig)
 
 # Título del test
@@ -118,6 +116,7 @@ for area, preguntas_area in preguntas.items():
     respuestas = []
     for pregunta in preguntas_area:
         respuesta = st.radio(pregunta, list(opciones_respuesta.keys()))
+        # Almacena el valor numérico de la respuesta seleccionada
         respuestas.append(opciones_respuesta[respuesta])
     respuestas_usuario[area] = respuestas
 
@@ -135,24 +134,15 @@ if st.button("Calcular Resultados"):
         st.write("---")
         puntajes[area] = puntaje
 
-    # Crear gráficos con los puntajes calculados
+    # Crear gráfica de radar con los puntajes calculados
     labels = list(puntajes.keys())
     values = list(puntajes.values())
     
-    # Gráfico de radar
+    st.subheader("Gráfica de Radar")
     radar_chart(labels, values, "Gráfico de Radar - Puntajes por Área")
     
-    # Gráfico de barras apiladas
-    barra_apilada_chart(labels, values, "Gráfico de Barras Apiladas - Puntajes por Área")
-    
-    # Gráfico de líneas
-    line_chart(labels, values, "Gráfico de Líneas - Puntajes por Área")
-    
-    # Gráfico de tarta
-    pie_chart(labels, values, "Gráfico de Tarta - Puntajes por Área")
-    
-    # Histograma
-    histograma_chart(values, "Histograma de Puntajes")
-    
-    # Gráfico de barras horizontales
-    barras_horizontales(labels, values, "Gráfico de Barras Horizontales - Puntajes por Área")
+    st.subheader("Gráfico de Barras")
+    bar_chart(labels, values, "Gráfico de Barras - Puntajes por Área")
+
+    st.subheader("Visualización de Red Neuronal")
+    neural_network_chart()
