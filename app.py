@@ -1,4 +1,5 @@
 import streamlit as st
+import matplotlib.pyplot as plt
 
 # Definimos las preguntas por área
 preguntas = {
@@ -63,6 +64,7 @@ for area, preguntas_area in preguntas.items():
 # Botón para calcular los resultados
 if st.button("Calcular Resultados"):
     st.subheader("Resultados del Test")
+    puntajes = {}
     for area, respuestas_area in respuestas_usuario.items():
         puntaje, interpretacion = calcular_puntaje_area(respuestas_area)
         descripcion = descripciones_subarea.get(area, "Descripción no disponible")
@@ -71,3 +73,14 @@ if st.button("Calcular Resultados"):
         st.write(f"Puntaje total: {puntaje}")
         st.write(f"Interpretación: {interpretacion}")
         st.write("---")
+        puntajes[area] = puntaje
+
+    # Crear gráfica de barras con Matplotlib
+    st.subheader("Gráfica de Puntajes por Área")
+    fig, ax = plt.subplots()
+    ax.bar(puntajes.keys(), puntajes.values())
+    ax.set_xlabel("Áreas")
+    ax.set_ylabel("Puntajes")
+    ax.set_title("Puntajes obtenidos por área")
+    plt.xticks(rotation=45, ha="right")
+    st.pyplot(fig)
