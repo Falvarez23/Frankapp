@@ -2,6 +2,22 @@ import streamlit as st
 import matplotlib.pyplot as plt
 import numpy as np
 
+# Mensaje de introducción
+def mostrar_introduccion():
+    st.title("¡Sueña en grande, logra tus metas!")
+    st.write("""
+        ### ¡Descubre tu camino hacia el éxito con **Mentess™** nuestro test de exploración de carreras! 
+
+        En **ScholarShine**, creemos que cada estudiante tiene un potencial único que merece ser explorado. 
+        Nuestra prueba te ayudará a identificar tus **intereses**, **habilidades** y **atributos**, guiándote hacia carreras que se ajusten perfectamente a tu perfil.
+
+        Con resultados claros y detallados, estarás un paso más cerca de tomar decisiones informadas sobre tu futuro académico y profesional.
+
+        ¡Comienza ahora con nuestro test de exploración de carreras y descubre tu futuro!
+    """)
+    if st.button("Adquirir Test"):
+        st.experimental_rerun()
+
 # Definimos las preguntas por área
 preguntas = {
     "Tecnología y Desarrollo de Software": [
@@ -108,46 +124,57 @@ def neural_network_chart():
     ax.axis('off')
     st.pyplot(fig)
 
-# Título del test
-st.title("Test de Intereses y Potenciales")
+# Mostrar introducción si no se ha iniciado el test
+if 'test_iniciado' not in st.session_state:
+    st.session_state['test_iniciado'] = False
+    mostrar_introduccion()
 
-# Inicializamos un diccionario para almacenar las respuestas del usuario
-respuestas_usuario = {}
+# Botón para iniciar el test
+if st.session_state['test_iniciado'] == False and st.button("Iniciar Test"):
+    st.session_state['test_iniciado'] = True
+    st.experimental_rerun()
 
-# Iteramos por cada área y mostramos las preguntas con opciones de respuesta
-for area, preguntas_area in preguntas.items():
-    st.header(f"Área: {area}")
-    respuestas = []
-    for pregunta in preguntas_area:
-        respuesta = st.radio(pregunta, list(opciones_respuesta.keys()))
-        # Almacena el valor numérico de la respuesta seleccionada
-        respuestas.append(opciones_respuesta[respuesta])
-    respuestas_usuario[area] = respuestas
-
-# Botón para calcular los resultados
-if st.button("Calcular Resultados"):
-    st.subheader("Resultados del Test")
-    puntajes = {}
-    for area, respuestas_area in respuestas_usuario.items():
-        puntaje, interpretacion = calcular_puntaje_area(respuestas_area)
-        descripcion = descripciones_subarea.get(area, "Descripción no disponible")
-        st.write(f"Área: {area}")
-        st.write(f"Descripción: {descripcion}")
-        st.write(f"Puntaje total: {puntaje}")
-        st.write(f"Interpretación: {interpretacion}")
-        st.write("---")
-        puntajes[area] = puntaje
-
-    # Crear gráfica de radar con los puntajes calculados
-    labels = list(puntajes.keys())
-    values = list(puntajes.values())
+# Si el test se ha iniciado, mostrar las preguntas
+if st.session_state['test_iniciado']:
+    st.title("Test de Exploración de Carreras")
     
-    if len(labels) > 0 and len(values) > 0:
-        st.subheader("Gráfica de Radar")
-        radar_chart(labels, values, "Gráfico de Radar - Puntajes por Área")
+    # Inicializamos un diccionario para almacenar las respuestas del usuario
+    respuestas_usuario = {}
 
-        st.subheader("Gráfico de Barras")
-        bar_chart(labels, values, "Gráfico de Barras - Puntajes por Área")
+    # Iteramos por cada área y mostramos las preguntas con opciones de respuesta
+    for area, preguntas_area in preguntas.items():
+        st.header(f"Área: {area}")
+        respuestas = []
+        for pregunta in preguntas_area:
+            respuesta = st.radio(pregunta, list(opciones_respuesta.keys()))
+            # Almacena el valor numérico de la respuesta seleccionada
+            respuestas.append(opciones_respuesta[respuesta])
+        respuestas_usuario[area] = respuestas
 
-        st.subheader("Visualización de Red Neuronal")
-        neural_network_chart()
+    # Botón para calcular los resultados
+    if st.button("Ver Resultados"):
+        st.subheader("Resultados del Test")
+        puntajes = {}
+        for area, respuestas_area in respuestas_usuario.items():
+            puntaje, interpretacion = calcular_puntaje_area(respuestas_area)
+            descripcion = descripciones_subarea.get(area, "Descripción no disponible")
+            st.write(f"Área: {area}")
+            st.write(f"Descripción: {descripcion}")
+            st.write(f"Puntaje total: {puntaje}")
+            st.write(f"Interpretación: {interpretacion}")
+            st.write("---")
+            puntajes[area] = puntaje
+
+        # Crear gráfica de radar con los puntajes calculados
+        labels = list(puntajes.keys())
+        values = list(puntajes.values())
+
+        if len(labels) > 0 and len(values) > 0:
+            st.subheader("Gráfica de Radar")
+            radar_chart(labels, values, "Gráfico de Radar - Puntajes por Área")
+
+            st.subheader("Gráfico de Barras")
+            bar_chart(labels, values, "Gráfico de Barras - Puntajes por Área")
+
+            st.subheader("Visualización de Red Neuronal")
+            neural_network_chart()
