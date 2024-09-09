@@ -5,7 +5,7 @@ import pandas as pd
 st.title("Simulación de Input de Datos desde Excel")
 
 # Subir archivo Excel
-uploaded_file = st.file_uploader("Sube tu archivo Excel para procesarlo como input", type=["xlsx"])
+uploaded_file = st.file_uploader("Sube tu archivo Excel para procesarlo como input", type=["csv"])
 
 if uploaded_file is not None:
     # Leer el archivo Excel
