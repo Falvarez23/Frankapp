@@ -25,6 +25,12 @@ opciones_respuesta = {
     "Siempre": 2
 }
 
+# Descripciones breves de cada subárea
+descripciones_subarea = {
+    "Tecnología y Desarrollo de Software": "Técnico-manual: Habilidad para trabajar con herramientas y maquinaria, resolver problemas prácticos y realizar tareas manuales.",
+    "Creatividad y Medios Digitales": "Artístico-creativo: Capacidad para expresarse a través de diferentes medios artísticos como la música, la pintura, la escritura o la danza."
+}
+
 # Función para calcular el puntaje y la interpretación
 def calcular_puntaje_area(respuestas):
     puntaje_total = sum(respuestas)
@@ -59,7 +65,9 @@ if st.button("Calcular Resultados"):
     st.subheader("Resultados del Test")
     for area, respuestas_area in respuestas_usuario.items():
         puntaje, interpretacion = calcular_puntaje_area(respuestas_area)
+        descripcion = descripciones_subarea.get(area, "Descripción no disponible")
         st.write(f"Área: {area}")
+        st.write(f"Descripción: {descripcion}")
         st.write(f"Puntaje total: {puntaje}")
         st.write(f"Interpretación: {interpretacion}")
         st.write("---")
