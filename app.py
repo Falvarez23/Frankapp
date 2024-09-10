@@ -1,29 +1,42 @@
 import streamlit as st
 import pandas as pd
+from openpyxl import load_workbook
 
 # Título de la aplicación
-st.title("Simulación de Input de Datos desde Excel")
+st.title("Formulario de Datos")
 
-# Subir archivo Excel
-uploaded_file = st.file_uploader("Sube tu archivo Excel para procesarlo como input", type=["xlsx"])
+# Crear el formulario
+with st.form("my_form"):
+    nombre = st.text_input("Nombre:")
+    email = st.text_input("Correo electrónico:")
+    edad = st.number_input("Edad:", min_value=0, max_value=120)
+    
+    # Enviar los datos
+    submitted = st.form_submit_button("Enviar")
 
-if uploaded_file is not None:
-    # Leer el archivo Excel
-    df = pd.read_excel(uploaded_file)
+# Cuando se envían los datos
+if submitted:
+    # Crear un DataFrame con los datos
+    datos = pd.DataFrame({
+        "Nombre": [nombre],
+        "Correo": [email],
+        "Edad": [edad]
+    })
 
-    # Simular el uso de los datos como "input" en otra aplicación
-    st.write("Datos recibidos como 'input':")
-    st.dataframe(df)
+    # Guardar los datos en un archivo Excel
+    try:
+        # Si el archivo ya existe, cargarlo y agregar datos
+        book = load_workbook("datos.xlsx")
+        writer = pd.ExcelWriter("datos.xlsx", engine="openpyxl")
+        writer.book = book
+        datos.to_excel(writer, index=False, header=False, startrow=writer.sheets['Sheet1'].max_row)
+        writer.save()
+        writer.close()
+    except FileNotFoundError:
+        # Si el archivo no existe, crearlo
+        datos.to_excel("datos.xlsx", index=False)
 
-    # Proceso de simulación: aquí podrías incluir cualquier lógica adicional
-    # de procesamiento de los datos como si fueran la entrada de otro sistema.
-    st.write("Procesando los datos...")
+    st.success("¡Datos guardados exitosamente!")
 
-    # Ejemplo de algún procesamiento simple
-    # Aquí puedes agregar tu propia lógica para procesar los datos del archivo Excel
-    st.write("Resumen de los datos:")
-    st.write(df.describe())
-
-    # Botón para confirmar el uso de estos datos como "input"
-    if st.button("Confirmar y procesar"):
-        st.success("Los datos han sido procesados correctamente.")
+    # Mostrar los datos en la app
+    st.dataframe(datos)
