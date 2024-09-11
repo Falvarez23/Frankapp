@@ -10,7 +10,7 @@ def main():
         <style>
         /* Fondo general */
         .main {
-            background-color: #FFFFFF; /* Fondo blanco neutro */
+            background-color: #F0F0F0; /* Fondo gris claro */
             font-family: 'Arial', sans-serif; /* Fuente clara y legible */
         }
 
@@ -19,23 +19,23 @@ def main():
             max-width: 800px;
             margin: 0 auto;
             padding: 50px 30px;
-            background-color: #FDE192; /* Fondo amarillo claro */
+            background-color: #FFFFE0; /* Fondo amarillo claro */
             border-radius: 10px; /* Bordes redondeados */
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil */
         }
 
-        /* Título principal en azul Scholarshine */
+        /* Título principal en Azul Principal */
         h1 {
-            color: #467BE9; /* Azul Scholarshine */
+            color: #1E90FF; /* Azul Principal */
             font-size: 2.2em; /* Tamaño grande para el título */
             font-weight: 700; /* Negrita */
             text-align: center;
             margin-bottom: 20px; /* Espaciado inferior */
         }
 
-        /* Subtítulo en azul Scholarshine */
+        /* Subtítulo en Azul Principal */
         h2 {
-            color: #000000 !important; /* Azul Scholarshine */
+            color: #1E90FF !important; /* Azul Principal */
             font-size: 1.5em; /* Tamaño ajustado para el subtítulo */
             font-weight: 500;
             text-align: left;
@@ -45,11 +45,11 @@ def main():
 
         /* Sección de preguntas */
         .question-section {
-            background-color: #F9F7F4; /* Fondo blanco neutro */
+            background-color: #F0F0F0; /* Fondo gris claro */
             padding: 20px;
             margin-bottom: 20px;
             border-radius: 8px;
-            border: 2px solid #467BE9; /* Borde azul Scholarshine */
+            border: 2px solid #1E90FF; /* Borde azul principal */
         }
 
         .question-item {
@@ -60,12 +60,12 @@ def main():
 
         .highlight {
             font-weight: 600;
-            color: #FF5A72; /* Resaltado en Pink Future */
+            color: #32CD32; /* Resaltado en Verde Suave */
         }
 
         /* Botón de CTA (Call to Action) */
         .stButton button {
-            background-color: #FF5A72; /* Botón Pink Future */
+            background-color: #FF4500; /* Botón Rojo Vivo */
             color: #FFFFFF !important; /* Texto blanco */
             font-size: 1.2em; /* Texto ajustado */
             padding: 12px 24px; /* Ajuste de tamaño del botón */
@@ -76,12 +76,12 @@ def main():
 
         /* Hover en el botón */
         .stButton button:hover {
-            background-color: #FF2B52; /* Botón más oscuro al pasar el mouse */
+            background-color: #FF6347; /* Botón más oscuro al pasar el mouse */
         }
 
         /* Mejora de la barra de progreso */
         .stProgress .css-1f7rzyt {
-            background-color: #467BE9; /* Azul Scholarshine para la barra de progreso */
+            background-color: #1E90FF; /* Azul Principal para la barra de progreso */
         }
 
         </style>
@@ -123,7 +123,7 @@ def main():
         st.subheader("Test de Exploración de Carreras Adquirido")
 
         st.markdown("""
-        <p style="color: #467BE9;">
+        <p style="color: #1E90FF;">
             ¡Gracias por adquirir nuestro <strong>Test de Exploración de Carreras</strong>! 
             Este test está diseñado para ayudarte a identificar tus intereses y habilidades, 
             guiándote hacia las carreras que más se ajustan a tu perfil.
