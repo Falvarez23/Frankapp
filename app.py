@@ -156,16 +156,52 @@ def main():
 
     # Pantalla final después de completar el test
     elif st.session_state.step > len(questions):
-        st.title("¡Test completado!")
-        st.markdown("""
-        <p style='text-align: center; font-size: 1.2em;'>
-            ¡Gracias por completar el Test de Exploración de Carreras! Pronto recibirás los resultados que te guiarán hacia las mejores opciones de carrera.
-        </p>
-        """, unsafe_allow_html=True)
+        st.title("¡Resultados del Test!")
+        st.write("**Nombre del usuario**: Juan Pérez")
+        
+        # Resumen general
+        st.subheader("Resumen General")
+        st.write("Crecimiento proyectado de tu industria: **75%**")
+        st.write("Crecimiento proyectado de profesionales en tu industria: **82%**")
+        st.write("Demanda laboral actual: **54%**")
+        st.write("Nivel de automatización en tu industria: **99%**")
+        st.write("Nivel de avance tecnológico en tu industria: **14%**")
 
-        # Botón para ver los resultados (simulado)
-        if st.button("Ver resultados"):
-            st.write("Aquí se mostrarían los resultados del test...")
+        # Detalles por áreas
+        st.subheader("Detalles por áreas")
+
+        st.write("**Crecimiento Profesional**")
+        st.write("Crecimiento proyectado: **82%**")
+        st.write("Comparativa: Tu proyección está por encima del promedio del sector en tu país, que es del 70%.")
+        st.write("Recomendación: Con esta alta proyección de crecimiento, te sugerimos centrarte en el desarrollo de habilidades tecnológicas avanzadas para mantenerte competitivo en un entorno de alta automatización.")
+
+        st.write("**Demanda Laboral**")
+        st.write("Demanda actual: **54%**")
+        st.write("Comparativa: La demanda en tu industria está en un nivel promedio. Esto significa que hay oportunidades, pero es importante diferenciarse de la competencia.")
+        st.write("Recomendación: Refuerza tus habilidades técnicas a través de certificaciones o especializaciones para aumentar tu atractivo ante posibles empleadores.")
+
+        st.write("**Tasa de Automatización**")
+        st.write("Tasa de automatización: **99%**")
+        st.write("Comentario: La automatización es extremadamente alta en tu sector. Esto sugiere que las tareas rutinarias están siendo reemplazadas por tecnologías.")
+        st.write("Recomendación: Enfócate en desarrollar habilidades que complementen las tecnologías, como la creatividad, el liderazgo y la gestión de proyectos tecnológicos.")
+
+        st.write("**Tasa de Avance Tecnológico**")
+        st.write("Tasa de avance tecnológico: **14%**")
+        st.write("Comentario: Aunque tu industria tiene un alto nivel de automatización, el avance tecnológico está todavía en etapas tempranas.")
+        st.write("Recomendación: Aprovecha este periodo para convertirte en un líder en la adopción de nuevas tecnologías, buscando formación en áreas emergentes como inteligencia artificial o blockchain.")
+
+        # Comparativa de Crecimiento por Industria
+        st.subheader("Comparativa de Crecimiento por Industria")
+        st.write("A continuación te mostramos cómo te comparas con otros profesionales en tu industria en relación con el crecimiento laboral proyectado:")
+
+        # Botón para ver recomendaciones personalizadas
+        if st.button("Ver recomendaciones personalizadas"):
+            st.subheader("Recomendaciones Personalizadas")
+            st.write("""
+            - **Desarrollo de Habilidades Avanzadas**: Te sugerimos inscribirte en nuestro curso de "Gestión de Proyectos Tecnológicos" para mejorar tu perfil ante los empleadores y aprovechar el alto crecimiento proyectado.
+            - **Aprovechar la Automatización**: Con el alto nivel de automatización en tu industria, es recomendable que desarrolles habilidades de programación y análisis de datos para trabajar junto con las tecnologías emergentes.
+            - **Networking**: Aprovecha el crecimiento moderado en demanda laboral para ampliar tu red de contactos en la industria. Participa en conferencias o eventos relacionados con el desarrollo tecnológico y automatización.
+            """)
 
         # Botón para volver al inicio
         if st.button("Volver al inicio"):
