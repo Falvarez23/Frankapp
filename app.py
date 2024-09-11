@@ -4,13 +4,13 @@ def main():
     # Configuración de la página
     st.set_page_config(page_title="Test de Exploración de Carreras", page_icon=":memo:", layout="centered")
 
-    # Estilo CSS actualizado con la nueva paleta de colores
+    # Estilo CSS actualizado con la nueva paleta de colores y mejor estructura
     st.markdown(
         """
         <style>
         /* Fondo general */
         .main {
-            background-color: #FFFFFF; /* Fondo blanco neutro */
+            background-color: #F9F7F4; /* Fondo blanco neutro */
             font-family: 'Arial', sans-serif; /* Fuente clara y legible */
         }
 
@@ -27,7 +27,7 @@ def main():
         /* Título principal en azul Scholarshine */
         h1 {
             color: #467BE9; /* Azul Scholarshine */
-            font-size: 2.5em; /* Tamaño grande para el título */
+            font-size: 2.2em; /* Tamaño grande para el título */
             font-weight: 700; /* Negrita */
             text-align: center;
             margin-bottom: 20px; /* Espaciado inferior */
@@ -36,24 +36,24 @@ def main():
         /* Subtítulo en azul Scholarshine */
         h2 {
             color: #467BE9 !important; /* Azul Scholarshine */
-            font-size: 1.8em; /* Tamaño mayor para el subtítulo */
+            font-size: 1.5em; /* Tamaño ajustado para el subtítulo */
             font-weight: 500;
             text-align: left;
             margin-top: 20px; /* Espaciado superior */
             margin-bottom: 20px; /* Aumentar espaciado inferior */
         }
 
-        /* Sección de resultados generales */
-        .result-section {
-            background-color: #467BE9; /* Fondo blanco neutro */
+        /* Sección de preguntas */
+        .question-section {
+            background-color: #F9F7F4; /* Fondo blanco neutro */
             padding: 20px;
             margin-bottom: 20px;
             border-radius: 8px;
             border: 2px solid #467BE9; /* Borde azul Scholarshine */
         }
 
-        .result-item {
-            font-size: 1.2em;
+        .question-item {
+            font-size: 1.1em;
             color: #000000; /* Negro para el texto */
             line-height: 1.6;
         }
@@ -66,9 +66,9 @@ def main():
         /* Botón de CTA (Call to Action) */
         .stButton button {
             background-color: #FF5A72; /* Botón Pink Future */
-            color: # !important; /* Texto blanco */
-            font-size: 1.5em; /* Texto grande */
-            padding: 15px 30px; /* Botón grande */
+            color: #FFFFFF !important; /* Texto blanco */
+            font-size: 1.2em; /* Texto ajustado */
+            padding: 12px 24px; /* Ajuste de tamaño del botón */
             border-radius: 5px; /* Bordes redondeados */
             border: none; /* Sin borde */
             transition: background-color 0.3s ease; /* Animación suave */
@@ -78,6 +78,12 @@ def main():
         .stButton button:hover {
             background-color: #FF2B52; /* Botón más oscuro al pasar el mouse */
         }
+
+        /* Mejora de la barra de progreso */
+        .stProgress .css-1f7rzyt {
+            background-color: #467BE9; /* Azul Scholarshine para la barra de progreso */
+        }
+
         </style>
         """,
         unsafe_allow_html=True
@@ -139,8 +145,10 @@ def main():
 
         # Mostrar la pregunta actual
         question_idx = st.session_state.step - 1
+        st.markdown("<div class='question-section'>", unsafe_allow_html=True)
         st.write(f"Pregunta {st.session_state.step} de {len(questions)}")
         st.write(questions[question_idx])
+        st.markdown("</div>", unsafe_allow_html=True)
 
         # Recoger la respuesta
         response = st.radio("Elige tu respuesta:", options, key=question_idx)
