@@ -26,7 +26,7 @@ def main():
 
         /* Título principal */
         h1 {
-            color: #1F1F1F; /* Negro oscuro */
+            color: #ffffff; /* Negro oscuro */
             font-size: 2.5em; /* Tamaño grande para el título */
             font-weight: 700; /* Negrita */
             text-align: center;
