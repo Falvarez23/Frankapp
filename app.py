@@ -12,17 +12,10 @@ def main():
             background-color: #FFFFFF;
             color: #000000;
         }
-        .stImage {
-            margin: 0 auto;
-            display: block;
-        }
         </style>
         """,
         unsafe_allow_html=True
     )
-
-    # Logo
-    st.image("logo.png", width=200)  # Ajusta la ruta y el tamaño del logo según sea necesario
 
     # Título
     st.title("Formulario de Interés")
@@ -67,3 +60,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
