@@ -23,13 +23,14 @@ def main():
             margin-bottom: 0;
         }
 
-        /* Subtítulo */
+        /* Subtítulo ajustado */
         h2 {
-            color: #1F1F1F; /* Negro oscuro */
-            font-size: 1.5em; /* Tamaño de subtítulo */
-            font-weight: 500;
+            color: #333333 !important; /* Gris oscuro */
+            font-size: 1.8em; /* Tamaño mayor para el subtítulo */
+            font-weight: 400;
             text-align: center;
-            margin-bottom: 20px;
+            margin-top: 0; /* Quitar margen superior */
+            margin-bottom: 30px; /* Aumentar espaciado inferior */
         }
 
         /* Texto descriptivo */
@@ -154,3 +155,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
