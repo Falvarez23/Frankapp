@@ -1,30 +1,50 @@
 import streamlit as st
 
-def show_test_page():
-    st.markdown(
-        """
+def main():
+    # Configuración de la página
+    st.set_page_config(page_title="Test de Exploración de Carreras", page_icon=":memo:", layout="centered")
+
+    # Estilo CSS personalizado
+    st.markdown("""
         <style>
-        /* Estilo general para el texto */
+        /* Fondo general de la página */
+        .main {
+            background-color: #F9F7F4; /* Blanco neutro */
+        }
+        
+        /* Cambiar color del texto y asegurarse de que no sea blanco */
         h1, h2, h3, h4, p, label {
-            color: #000000 !important; /* Cambiar el color del texto a negro */
+            color: #000000 !important; /* Negro forzado */
         }
 
-        /* Forzar color negro en botones de texto */
+        /* Estilo para los botones */
         .stButton button {
-            color: #FFFFFF !important; /* Cambia el color del texto en el botón */
-            background-color: #FF5A72; /* Fondo rosa */
+            background-color: #FF5A72; /* Rosa Pink Future */
+            color: white;
+            border-radius: 10px;
         }
 
-        /* Si hay algún texto específico que sigue siendo blanco */
-        .stMarkdown p {
-            color: #000000 !important; /* Texto en negro */
+        /* Barra de progreso */
+        .stProgress .css-1f7rzyt {
+            background-color: #467BE9 !important; /* Azul Scholarshine */
         }
+
+        /* Fondo de los gráficos */
+        .plot-container {
+            background-color: #FDE192; /* Fondo amarillo suave */
+            padding: 10px;
+            border-radius: 10px;
+        }
+
         </style>
-        """, unsafe_allow_html=True
-    )
+    """, unsafe_allow_html=True)
 
-    st.markdown("<h1 style='color:#467BE9; text-align:center;'>Test de Exploración de Carreras</h1>", unsafe_allow_html=True)
-
+    # Mostrar contenido de ejemplo
+    st.markdown("<h1>Test de Exploración de Carreras</h1>", unsafe_allow_html=True)
     st.write("Este es un ejemplo de texto que debería aparecer en negro.")
     
-    st.button("Botón de prueba")
+    if st.button("Botón de prueba"):
+        st.write("Botón presionado.")
+
+if __name__ == "__main__":
+    main()
