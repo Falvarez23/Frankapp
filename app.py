@@ -42,22 +42,22 @@ def main():
     ]
 
     # Almacenar respuestas
-    responses = []
+    responses = {}
 
-    # Encabezado del formulario
     st.header("Responde las siguientes preguntas:")
 
     # Iterar sobre las preguntas para crear los campos del formulario
-    for question in questions:
-        response = st.selectbox(question, options)
-        responses.append(response)
+    for i, question in enumerate(questions):
+        response = st.radio(question, options, key=i)
+        responses[question] = response
     
     # Botón para enviar el formulario
     if st.button("Enviar"):
         st.write("Respuestas recibidas:")
-        for i, response in enumerate(responses):
-            st.write(f"{questions[i]}: {response}")
+        for question, response in responses.items():
+            st.write(f"{question}: {response}")
 
 if __name__ == "__main__":
     main()
+
 
