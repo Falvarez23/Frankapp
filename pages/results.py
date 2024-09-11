@@ -28,7 +28,9 @@ def show_results_page():
         st.plotly_chart(fig, use_container_width=True)
         st.markdown("</div>", unsafe_allow_html=True)
 
-    st.write("Comparativa de Crecimiento por Industria")
+    # Botón para generar estadísticas
+    if st.button("Generar Estadísticas"):
+        st.write("Generando estadísticas...")
 
     # Botón para regresar al inicio
     if st.button("Volver al Inicio"):
