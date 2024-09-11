@@ -1,7 +1,7 @@
 import streamlit as st
 
 def show_test_page():
-    st.markdown("<h1 style='color:#467BE9; text-align:center;'>Test de Exploración de Carreras</h1>", unsafe_allow_html=True)
+    st.markdown("<h1>Test de Exploración de Carreras</h1>", unsafe_allow_html=True)
 
     # Preguntas del test
     questions = [
@@ -30,13 +30,13 @@ def show_test_page():
     # Pantalla inicial
     if st.session_state.step == 0:
         st.write("Este test está diseñado para ayudarte a identificar tus intereses y habilidades.")
-        if st.button("Comenzar Test", key="start_test"):
+        if st.button("Comenzar Test"):
             st.session_state.step = 1
 
     # Preguntas del test con barra de progreso
     elif st.session_state.step > 0 and st.session_state.step <= len(questions):
         question_idx = st.session_state.step - 1
-        st.markdown(f"<h2 style='color:#467BE9;'>Pregunta {st.session_state.step} de {len(questions)}</h2>", unsafe_allow_html=True)
+        st.markdown(f"<h2>Pregunta {st.session_state.step} de {len(questions)}</h2>", unsafe_allow_html=True)
 
         # Barra de progreso
         progress = (st.session_state.step - 1) / len(questions)
@@ -46,7 +46,7 @@ def show_test_page():
         st.write(questions[question_idx])
         st.radio("Selecciona una opción:", options, key=f"response_{question_idx}")
 
-        if st.button("Siguiente", key=f"next_{question_idx}"):
+        if st.button("Siguiente"):
             st.session_state.step += 1
 
     else:
