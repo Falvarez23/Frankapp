@@ -3,9 +3,8 @@ from utils.graphics import generate_plotly_chart
 
 def show_results_page():
     st.markdown("<h1 style='color:#467BE9; text-align:center;'>Resultados del Test</h1>", unsafe_allow_html=True)
-    st.write("Resumen de tus respuestas")
 
-    # Datos de ejemplo para los gráficos
+    # Datos de ejemplo
     data = {
         "Crecimiento proyectado": 75,
         "Demanda laboral": 54,
@@ -28,3 +27,7 @@ def show_results_page():
         st.plotly_chart(fig, use_container_width=True)
 
     st.write("Comparativa de Crecimiento por Industria")
+
+    # Botón para regresar al inicio
+    if st.button("Volver al Inicio"):
+        st.session_state.step = 0
