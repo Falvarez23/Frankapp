@@ -4,6 +4,78 @@ def main():
     # Configuración de la página
     st.set_page_config(page_title="Test de Exploración de Carreras", page_icon=":memo:", layout="centered")
 
+    # Estilo CSS para mantener los colores y el formato profesional
+    st.markdown(
+        """
+        <style>
+        /* Fondo general */
+        .main {
+            background-color: #f1f5fd; /* Azul claro */
+            font-family: 'Arial', sans-serif; /* Fuente clara y legible */
+        }
+
+        /* Título principal */
+        h1 {
+            color: #1F1F1F; /* Negro oscuro */
+            font-size: 3em; /* Tamaño grande para el título */
+            font-weight: 700; /* Negrita */
+            text-align: center;
+            margin-bottom: 0;
+        }
+
+        /* Subtítulo */
+        h2 {
+            color: #1F1F1F; /* Negro oscuro */
+            font-size: 1.5em; /* Tamaño de subtítulo */
+            font-weight: 500;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Texto descriptivo */
+        p {
+            font-size: 1.2em; /* Tamaño del texto para instrucciones */
+            color: #333333; /* Gris oscuro */
+            text-align: center;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto 40px; /* Centrado y con espaciado inferior */
+        }
+
+        /* Botón de CTA (Call to Action) */
+        .stButton button {
+            background-color: #3366FF; /* Botón azul fuerte */
+            color: #FFFFFF !important; /* Texto blanco */
+            font-size: 1.5em; /* Texto grande */
+            padding: 15px 30px; /* Botón grande */
+            border-radius: 5px; /* Bordes redondeados */
+            border: none; /* Sin borde */
+            transition: background-color 0.3s ease; /* Animación suave */
+        }
+
+        /* Hover en el botón */
+        .stButton button:hover {
+            background-color: #2850b8; /* Botón más oscuro al pasar el mouse */
+        }
+
+        /* Preguntas del formulario */
+        .stRadio label {
+            font-size: 1.1em; /* Tamaño del texto de las preguntas */
+            color: #333333; /* Gris oscuro */
+            font-weight: 500; /* Seminegrita para mejor legibilidad */
+            margin-bottom: 15px; /* Espaciado entre preguntas */
+        }
+
+        /* Opciones de radio */
+        .stRadio div {
+            font-size: 1em; /* Tamaño de las opciones de respuesta */
+            color: #333333; /* Gris oscuro */
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
     # Definir el estado inicial de la aplicación
     if 'step' not in st.session_state:
         st.session_state.step = 0  # Etapa del test (pantalla inicial = 0)
@@ -35,9 +107,11 @@ def main():
         st.subheader("Test de Exploración de Carreras Adquirido")
 
         st.markdown("""
-        <p style='text-align: center; font-size: 1.2em;'>
+        <p>
             ¡Gracias por adquirir nuestro <strong>Test de Exploración de Carreras</strong>! 
-            Haz clic en el botón de abajo para comenzar el test y descubrir tus mejores opciones de carrera.
+            Este test está diseñado para ayudarte a identificar tus intereses y habilidades, 
+            guiándote hacia las carreras que más se ajustan a tu perfil.
+            A continuación, haz clic en el botón para empezar tu test y descubrir las mejores opciones de carrera para ti.
         </p>
         """, unsafe_allow_html=True)
 
