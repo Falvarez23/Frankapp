@@ -4,24 +4,26 @@ def main():
     # Configuración de la página
     st.set_page_config(page_title="Formulario de Interés", page_icon=":memo:", layout="centered")
 
-    # Aplicar estilo CSS para mejorar el contraste
+    # Aplicar estilo CSS para mejorar el contraste y usar los colores de la imagen
     st.markdown(
         """
         <style>
         .main {
-            background-color: #FFFFFF;
+            background-color: #f1f5fd; /* Fondo azul claro */
             color: #333333; /* Texto gris oscuro */
         }
-        h1 {
-            color: #000000 !important; /* Encabezado en negro */
-            font-weight: bold;
+        h1, h2 {
+            color: #1F1F1F !important; /* Título en negro/gris muy oscuro */
         }
-        h2 {
-            color: #000000 !important; /* Subtítulo en negro */
-            font-weight: bold;
+        .stRadio label, .stRadio div {
+            color: #333333 !important; /* Texto de las preguntas y opciones de radio en gris oscuro */
         }
-        .stRadio label {
-            color: #333333; /* Texto gris oscuro para las opciones de radio */
+        .stButton button {
+            background-color: #3366FF; /* Botón azul fuerte */
+            color: #FFFFFF !important; /* Texto de los botones en blanco */
+        }
+        .stButton button:hover {
+            background-color: #2850b8; /* Color del botón cuando el mouse está sobre él */
         }
         </style>
         """,
