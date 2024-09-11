@@ -1,4 +1,5 @@
 import streamlit as st
+from pages import test, results
 
 def main():
     # Configuración de la página
@@ -12,16 +13,28 @@ def main():
             background-color: #F9F7F4; /* Blanco neutro */
         }
         
-        /* Cambiar color del texto y asegurarse de que no sea blanco */
-        h1, h2, h3, h4, p, label {
-            color: #000000 !important; /* Negro forzado */
+        /* Estilo para los títulos */
+        h1, h2 {
+            color: #467BE9 !important; /* Azul Scholarshine */
+            font-weight: bold;
+        }
+
+        /* Estilo para los subtítulos */
+        h3 {
+            color: #FF5A72 !important; /* Rosa Pink Future */
+        }
+
+        /* Estilo para el texto general */
+        p, label {
+            color: #000000 !important; /* Texto en negro */
         }
 
         /* Estilo para los botones */
         .stButton button {
-            background-color: #FF5A72; /* Rosa Pink Future */
+            background-color: #FF5A72; /* Fondo Rosa Pink Future */
             color: white;
             border-radius: 10px;
+            font-weight: bold;
         }
 
         /* Barra de progreso */
@@ -29,9 +42,9 @@ def main():
             background-color: #467BE9 !important; /* Azul Scholarshine */
         }
 
-        /* Fondo de los gráficos */
+        /* Fondo para los gráficos */
         .plot-container {
-            background-color: #FDE192; /* Fondo amarillo suave */
+            background-color: #FDE192; /* Fondo Amarillo Shine */
             padding: 10px;
             border-radius: 10px;
         }
@@ -39,12 +52,18 @@ def main():
         </style>
     """, unsafe_allow_html=True)
 
-    # Mostrar contenido de ejemplo
-    st.markdown("<h1>Test de Exploración de Carreras</h1>", unsafe_allow_html=True)
-    st.write("Este es un ejemplo de texto que debería aparecer en negro.")
-    
-    if st.button("Botón de prueba"):
-        st.write("Botón presionado.")
+    # Crear navegación entre páginas
+    pages = {
+        "Test de Exploración": test.show_test_page,
+        "Resultados": results.show_results_page
+    }
+
+    # Menú de navegación
+    st.sidebar.title("Navega por la app")
+    page = st.sidebar.selectbox("Selecciona una página", list(pages.keys()))
+
+    # Mostrar la página seleccionada
+    pages[page]()
 
 if __name__ == "__main__":
     main()
