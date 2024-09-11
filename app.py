@@ -4,13 +4,13 @@ def main():
     # Configuración de la página
     st.set_page_config(page_title="Test de Exploración de Carreras", page_icon=":memo:", layout="centered")
 
-    # Estilo CSS actualizado para cambiar colores y mejorar el diseño
+    # Estilo CSS actualizado para eliminar el color blanco y mejorar la legibilidad
     st.markdown(
         """
         <style>
         /* Fondo general */
         .main {
-            background-color: #f1f5fd; /* Azul claro */
+            background-color: #e9ecef; /* Fondo gris claro */
             font-family: 'Arial', sans-serif; /* Fuente clara y legible */
         }
 
@@ -19,7 +19,7 @@ def main():
             max-width: 800px;
             margin: 0 auto;
             padding: 50px 30px;
-            background-color: #ffffff; /* Fondo blanco para el contenido */
+            background-color: #f0f4ff; /* Fondo azul claro */
             border-radius: 10px; /* Bordes redondeados */
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil */
         }
@@ -43,9 +43,9 @@ def main():
             margin-bottom: 20px; /* Aumentar espaciado inferior */
         }
 
-        /* Sección de resultados generales con color azul para texto */
+        /* Sección de resultados generales con color azul y gris */
         .result-section {
-            background-color: #f0f4ff; /* Fondo suave */
+            background-color: #dfe7f2; /* Fondo gris claro */
             padding: 20px;
             margin-bottom: 20px;
             border-radius: 8px;
@@ -65,7 +65,7 @@ def main():
         /* Botón de CTA (Call to Action) */
         .stButton button {
             background-color: #3366FF; /* Botón azul fuerte */
-            color: #FFFFFF !important; /* Texto blanco */
+            color: #FFFFFF !important; /* Texto blanco en botón, mantenido para visibilidad */
             font-size: 1.5em; /* Texto grande */
             padding: 15px 30px; /* Botón grande */
             border-radius: 5px; /* Bordes redondeados */
@@ -116,7 +116,7 @@ def main():
         st.subheader("Test de Exploración de Carreras Adquirido")
 
         st.markdown("""
-        <p>
+        <p style="color: #0056b3;">
             ¡Gracias por adquirir nuestro <strong>Test de Exploración de Carreras</strong>! 
             Este test está diseñado para ayudarte a identificar tus intereses y habilidades, 
             guiándote hacia las carreras que más se ajustan a tu perfil.
@@ -230,4 +230,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
