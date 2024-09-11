@@ -45,7 +45,7 @@ def main():
 
         /* Sección de resultados generales */
         .result-section {
-            background-color: #000000; /* Fondo blanco neutro */
+            background-color: #467BE9; /* Fondo blanco neutro */
             padding: 20px;
             margin-bottom: 20px;
             border-radius: 8px;
@@ -54,7 +54,7 @@ def main():
 
         .result-item {
             font-size: 1.2em;
-            color: #FFFFFF; /* Negro para el texto */
+            color: #000000; /* Negro para el texto */
             line-height: 1.6;
         }
 
@@ -66,7 +66,7 @@ def main():
         /* Botón de CTA (Call to Action) */
         .stButton button {
             background-color: #FF5A72; /* Botón Pink Future */
-            color: #000000 !important; /* Texto blanco */
+            color: # !important; /* Texto blanco */
             font-size: 1.5em; /* Texto grande */
             padding: 15px 30px; /* Botón grande */
             border-radius: 5px; /* Bordes redondeados */
