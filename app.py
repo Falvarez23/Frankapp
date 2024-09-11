@@ -35,7 +35,7 @@ def main():
 
         /* Subtítulo en azul Scholarshine */
         h2 {
-            color: #467BE9 !important; /* Azul Scholarshine */
+            color: #000000 !important; /* Azul Scholarshine */
             font-size: 1.5em; /* Tamaño ajustado para el subtítulo */
             font-weight: 500;
             text-align: left;
