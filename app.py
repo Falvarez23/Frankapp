@@ -10,7 +10,10 @@ def main():
         <style>
         .main {
             background-color: #FFFFFF;
-            color: #000000;
+            color: #0000FF; /* Texto azul */
+        }
+        .stRadio label {
+            color: #0000FF; /* Texto azul para las opciones de radio */
         }
         </style>
         """,
@@ -59,5 +62,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
