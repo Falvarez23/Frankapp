@@ -1,21 +1,35 @@
 import streamlit as st
-from pages import test, results
 
-def main():
-    # Configuración de la página
-    st.set_page_config(page_title="Test de Exploración de Carreras", page_icon=":memo:", layout="centered")
+def show_test_page():
+    st.title("Test de Exploración de Carreras")
 
-    # Crear navegación simple entre páginas
-    pages = {
-        "Test de Exploración": test.show_test_page,
-        "Resultados": results.show_results_page
-    }
+    # Preguntas del test
+    questions = [
+        "¿Te sientes atraído por el campo de la robótica y la automatización?",
+        "¿Te atrae la idea de utilizar herramientas digitales para expresar tu creatividad?",
+        # Añade más preguntas aquí...
+    ]
 
-    # Menú de navegación
-    page = st.sidebar.selectbox("Navega por la app", list(pages.keys()))
+    # Opciones de respuesta
+    options = ["Bajo interés", "Interés moderado", "Alto interés"]
 
-    # Mostrar la página seleccionada
-    pages[page]()
+    if 'step' not in st.session_state:
+        st.session_state.step = 0
 
-if __name__ == "__main__":
-    main()
+    # Pantalla inicial
+    if st.session_state.step == 0:
+        st.write("Este test está diseñado para ayudarte a identificar tus intereses y habilidades.")
+        if st.button("Comenzar Test"):
+            st.session_state.step = 1
+
+    # Pantalla de preguntas
+    elif st.session_state.step > 0 and st.session_state.step <= len(questions):
+        question_idx = st.session_state.step - 1
+        st.write(f"Pregunta {st.session_state.step} de {len(questions)}")
+        st.radio("Selecciona una opción:", options, key=f"response_{question_idx}")
+
+        if st.button("Siguiente"):
+            st.session_state.step += 1
+    else:
+        st.session_state.step = 0
+        st.write("Gracias por completar el test.")
