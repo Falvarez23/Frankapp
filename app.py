@@ -4,13 +4,13 @@ def main():
     # Configuración de la página
     st.set_page_config(page_title="Test de Exploración de Carreras", page_icon=":memo:", layout="centered")
 
-    # Estilo CSS actualizado para eliminar el color blanco y mejorar la legibilidad
+    # Estilo CSS actualizado con la nueva paleta de colores
     st.markdown(
         """
         <style>
         /* Fondo general */
         .main {
-            background-color: #000000; /* Fondo gris claro */
+            background-color: #F9F7F4; /* Fondo blanco neutro */
             font-family: 'Arial', sans-serif; /* Fuente clara y legible */
         }
 
@@ -19,23 +19,23 @@ def main():
             max-width: 800px;
             margin: 0 auto;
             padding: 50px 30px;
-            background-color: #f0f4ff; /* Fondo azul claro */
+            background-color: #FDE192; /* Fondo amarillo claro */
             border-radius: 10px; /* Bordes redondeados */
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil */
         }
 
-        /* Título principal */
+        /* Título principal en azul Scholarshine */
         h1 {
-            color: #ffffff; /* Negro oscuro */
+            color: #467BE9; /* Azul Scholarshine */
             font-size: 2.5em; /* Tamaño grande para el título */
             font-weight: 700; /* Negrita */
             text-align: center;
             margin-bottom: 20px; /* Espaciado inferior */
         }
 
-        /* Subtítulo en azul */
+        /* Subtítulo en azul Scholarshine */
         h2 {
-            color: #ffffff !important; /* Azul visible para el subtítulo */
+            color: #467BE9 !important; /* Azul Scholarshine */
             font-size: 1.8em; /* Tamaño mayor para el subtítulo */
             font-weight: 500;
             text-align: left;
@@ -43,29 +43,30 @@ def main():
             margin-bottom: 20px; /* Aumentar espaciado inferior */
         }
 
-        /* Sección de resultados generales con color azul y gris */
+        /* Sección de resultados generales */
         .result-section {
-            background-color: #dfe7f2; /* Fondo gris claro */
+            background-color: #F9F7F4; /* Fondo blanco neutro */
             padding: 20px;
             margin-bottom: 20px;
             border-radius: 8px;
+            border: 2px solid #467BE9; /* Borde azul Scholarshine */
         }
 
         .result-item {
             font-size: 1.2em;
-            color: #0056b3; /* Azul para todo el texto dentro de los contenedores */
+            color: #000000; /* Negro para el texto */
             line-height: 1.6;
         }
 
         .highlight {
             font-weight: 600;
-            color: #0056b3; /* Azul para destacar */
+            color: #FF5A72; /* Resaltado en Pink Future */
         }
 
         /* Botón de CTA (Call to Action) */
         .stButton button {
-            background-color: #3366FF; /* Botón azul fuerte */
-            color: #FFFFFF !important; /* Texto blanco en botón, mantenido para visibilidad */
+            background-color: #FF5A72; /* Botón Pink Future */
+            color: #FFFFFF !important; /* Texto blanco */
             font-size: 1.5em; /* Texto grande */
             padding: 15px 30px; /* Botón grande */
             border-radius: 5px; /* Bordes redondeados */
@@ -75,7 +76,7 @@ def main():
 
         /* Hover en el botón */
         .stButton button:hover {
-            background-color: #2850b8; /* Botón más oscuro al pasar el mouse */
+            background-color: #FF2B52; /* Botón más oscuro al pasar el mouse */
         }
         </style>
         """,
@@ -116,7 +117,7 @@ def main():
         st.subheader("Test de Exploración de Carreras Adquirido")
 
         st.markdown("""
-        <p style="color: #0056b3;">
+        <p style="color: #467BE9;">
             ¡Gracias por adquirir nuestro <strong>Test de Exploración de Carreras</strong>! 
             Este test está diseñado para ayudarte a identificar tus intereses y habilidades, 
             guiándote hacia las carreras que más se ajustan a tu perfil.
