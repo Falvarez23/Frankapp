@@ -10,7 +10,7 @@ def main():
         <style>
         /* Fondo general */
         .main {
-            background-color: #F9F7F4; /* Fondo blanco neutro */
+            background-color: #FFFFFF; /* Fondo blanco neutro */
             font-family: 'Arial', sans-serif; /* Fuente clara y legible */
         }
 
@@ -45,7 +45,7 @@ def main():
 
         /* Sección de resultados generales */
         .result-section {
-            background-color: #F9F7F4; /* Fondo blanco neutro */
+            background-color: #000000; /* Fondo blanco neutro */
             padding: 20px;
             margin-bottom: 20px;
             border-radius: 8px;
@@ -66,7 +66,7 @@ def main():
         /* Botón de CTA (Call to Action) */
         .stButton button {
             background-color: #FF5A72; /* Botón Pink Future */
-            color: #FFFFFF !important; /* Texto blanco */
+            color: #000000 !important; /* Texto blanco */
             font-size: 1.5em; /* Texto grande */
             padding: 15px 30px; /* Botón grande */
             border-radius: 5px; /* Bordes redondeados */
