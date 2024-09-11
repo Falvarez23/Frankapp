@@ -4,33 +4,72 @@ def main():
     # Configuración de la página
     st.set_page_config(page_title="Formulario de Interés", page_icon=":memo:", layout="centered")
 
-    # Aplicar estilo CSS para mejorar el contraste y usar los colores de la imagen
+    # Aplicar estilo CSS para mejorar el diseño general y la experiencia de usuario
     st.markdown(
         """
         <style>
+        /* Fondo de la página */
         .main {
-            background-color: #f1f5fd; /* Fondo azul claro */
-            color: #333333; /* Texto gris oscuro */
+            background-color: #f1f5fd; /* Azul claro */
         }
-        h1, h2 {
-            color: #1F1F1F !important; /* Título en negro/gris muy oscuro */
+
+        /* Título principal */
+        h1 {
+            color: #1F1F1F; /* Negro oscuro */
+            font-size: 3em; /* Tamaño de fuente grande para el título */
+            font-weight: 700; /* Negrita */
+            margin-bottom: 20px; /* Espaciado inferior */
+            text-align: center;
         }
-        .stRadio label, .stRadio div {
-            color: #333333 !important; /* Texto de las preguntas y opciones de radio en gris oscuro */
+
+        /* Subtítulo */
+        h2 {
+            color: #1F1F1F; /* Negro oscuro */
+            font-size: 1.5em; /* Tamaño de subtítulo */
+            font-weight: 500;
+            margin-bottom: 30px; /* Espaciado inferior */
         }
+
+        /* Preguntas del formulario */
+        .stRadio label {
+            font-size: 1.1em; /* Tamaño del texto de las preguntas */
+            color: #333333; /* Gris oscuro */
+            font-weight: 500; /* Seminegrita para mejor legibilidad */
+            margin-bottom: 15px; /* Espaciado entre preguntas */
+        }
+
+        /* Opciones de radio */
+        .stRadio div {
+            font-size: 1em; /* Tamaño de las opciones de respuesta */
+            color: #333333; /* Gris oscuro */
+        }
+
+        /* Botones */
         .stButton button {
-            background-color: #3366FF; /* Botón azul fuerte */
-            color: #FFFFFF !important; /* Texto de los botones en blanco */
+            background-color: #3366FF; /* Azul fuerte */
+            color: #FFFFFF !important; /* Texto blanco */
+            font-size: 1.2em; /* Tamaño del texto de los botones */
+            padding: 10px 20px; /* Espaciado dentro del botón */
+            border-radius: 5px; /* Bordes redondeados */
+            border: none; /* Sin borde */
+            transition: background-color 0.3s ease; /* Animación suave al pasar el mouse */
         }
         .stButton button:hover {
-            background-color: #2850b8; /* Color del botón cuando el mouse está sobre él */
+            background-color: #2850b8; /* Color más oscuro al pasar el mouse */
         }
+        
+        /* Texto recibido (después de enviar respuestas) */
+        .stMarkdown {
+            font-size: 1.1em;
+            color: #333333;
+        }
+
         </style>
         """,
         unsafe_allow_html=True
     )
 
-    # Título y subtítulo con mejor contraste
+    # Título y subtítulo del formulario
     st.title("Formulario de Interés")
     st.header("Responde las siguientes preguntas:")
 
