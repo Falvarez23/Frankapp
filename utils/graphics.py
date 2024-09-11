@@ -9,7 +9,7 @@ def generate_plotly_chart(data):
         title="Indicadores de la Industria",
         xaxis_title="Aspectos",
         yaxis_title="Porcentaje",
-        plot_bgcolor="#FDE192",  # Fondo amarillo
+        plot_bgcolor="#FDE192",  # Fondo amarillo suave
         font=dict(color="#000000")  # Texto en negro
     )
     return fig
