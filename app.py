@@ -4,97 +4,79 @@ def main():
     # Configuración de la página
     st.set_page_config(page_title="Test de Exploración de Carreras", page_icon=":memo:", layout="centered")
 
-    # Aplicar estilo CSS para mejorar el diseño y darle un estilo de página web
-    st.markdown(
-        """
-        <style>
-        /* Fondo general */
-        .main {
-            background-color: #f1f5fd; /* Azul claro */
-            font-family: 'Arial', sans-serif; /* Fuente clara y legible */
-        }
+    # Definir el estado inicial de la aplicación
+    if 'step' not in st.session_state:
+        st.session_state.step = 0  # Etapa del test (pantalla inicial = 0)
 
-        /* Título principal */
-        h1 {
-            color: #1F1F1F; /* Negro oscuro */
-            font-size: 3em; /* Tamaño grande para el título */
-            font-weight: 700; /* Negrita */
-            text-align: center;
-            margin-bottom: 0;
-        }
+    # Preguntas del test
+    questions = [
+        "¿Te sientes atraído por el campo de la robótica y la automatización, y cómo estas tecnologías pueden aplicarse en contextos científicos y de investigación?",
+        "¿Te atrae la idea de utilizar herramientas digitales para expresar tu creatividad y generar contenido multimedia innovador?",
+        "¿Te entusiasma la idea de contribuir al desarrollo de videojuegos y experiencias interactivas mediante la creación de arte digital, diseño de personajes o entornos virtuales?",
+        "¿Te apasiona la idea de mejorar la salud y el bienestar de las personas a través de diferentes intervenciones y estrategias?",
+        "¿Te sientes motivado/a por la posibilidad de trabajar en organizaciones sin fines de lucro dedicadas a abordar problemas sociales, como la pobreza, la falta de vivienda o la educación desigual?",
+        "¿Te apasiona la idea de crear tu propio negocio o trabajar en un entorno dinámico y cambiante?",
+        "¿Te llama la atención el mundo del comercio electrónico y te interesa trabajar en el desarrollo de tiendas online o plataformas de venta digital?",
+        "¿Te apasiona la idea de contribuir a la educación de las personas y mejorar sus vidas a través de la enseñanza y el aprendizaje?",
+        "¿Te resulta sorprendente el mundo del marketing y la publicidad, y te interesa desarrollar estrategias creativas para comunicar mensajes a diferentes audiencias?",
+        "¿Te apasiona la idea de trabajar en la creación y diseño de prendas de moda, experimentando con materiales, texturas y formas para desarrollar colecciones innovadoras y vanguardistas?"
+    ]
 
-        /* Subtítulo */
-        h2 {
-            color: #1F1F1F; /* Negro oscuro */
-            font-size: 1.5em; /* Tamaño de subtítulo */
-            font-weight: 500;
-            text-align: center;
-            margin-bottom: 20px;
-        }
+    # Opciones de respuesta
+    options = [
+        "Bajo interés o potencial en la subárea.",
+        "Interés o potencial moderado en la subárea.",
+        "Alto interés o potencial en la subárea."
+    ]
 
-        /* Texto descriptivo */
-        p {
-            font-size: 1.2em; /* Tamaño del texto para instrucciones */
-            color: #333333; /* Gris oscuro */
-            text-align: center;
-            line-height: 1.6;
-            max-width: 800px;
-            margin: 0 auto 40px; /* Centrado y con espaciado inferior */
-        }
+    # Pantalla inicial (pantalla de bienvenida)
+    if st.session_state.step == 0:
+        st.title("¡Gracias por tu compra!")
+        st.subheader("Test de Exploración de Carreras Adquirido")
 
-        /* Botón de CTA (Call to Action) */
-        .stButton button {
-            background-color: #3366FF; /* Botón azul fuerte */
-            color: #FFFFFF !important; /* Texto blanco */
-            font-size: 1.5em; /* Texto grande */
-            padding: 15px 30px; /* Botón grande */
-            border-radius: 5px; /* Bordes redondeados */
-            border: none; /* Sin borde */
-            transition: background-color 0.3s ease; /* Animación suave */
-        }
+        st.markdown("""
+        <p style='text-align: center; font-size: 1.2em;'>
+            ¡Gracias por adquirir nuestro <strong>Test de Exploración de Carreras</strong>! 
+            Haz clic en el botón de abajo para comenzar el test y descubrir tus mejores opciones de carrera.
+        </p>
+        """, unsafe_allow_html=True)
 
-        /* Hover en el botón */
-        .stButton button:hover {
-            background-color: #2850b8; /* Botón más oscuro al pasar el mouse */
-        }
+        # Botón para comenzar el test
+        if st.button("¡Comenzar Test!"):
+            st.session_state.step = 1  # Avanzar al test
 
-        /* Imagen del producto */
-        .product-image {
-            text-align: center;
-        }
+    # Pantalla del test con barra de progreso
+    elif st.session_state.step > 0 and st.session_state.step <= len(questions):
+        st.title("Test de Exploración de Carreras")
 
-        .product-image img {
-            max-width: 400px;
-            height: auto;
-            margin-bottom: 30px;
-        }
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
+        # Barra de progreso
+        progress = (st.session_state.step - 1) / len(questions)
+        st.progress(progress)
 
-    # Contenido de la página tipo web
-    st.title("¡Gracias por tu compra!")
-    st.subheader("Test de Exploración de Carreras Adquirido")
+        # Mostrar la pregunta actual
+        question_idx = st.session_state.step - 1
+        st.write(f"Pregunta {st.session_state.step} de {len(questions)}")
+        st.write(questions[question_idx])
 
-    # Imagen del producto (simulación)
-    st.markdown('<div class="product-image"><img src="https://via.placeholder.com/400x300.png?text=Imagen+de+Test" alt="Test de Carreras"></div>', unsafe_allow_html=True)
+        # Recoger la respuesta
+        response = st.radio("Elige tu respuesta:", options, key=question_idx)
 
-    # Mensaje de bienvenida y explicativo
-    st.markdown("""
-    <p>
-        ¡Gracias por adquirir nuestro <strong>Test de Exploración de Carreras</strong>! 
-        Este test está diseñado para ayudarte a identificar tus intereses y habilidades, 
-        guiándote hacia las carreras que más se ajustan a tu perfil.
-        A continuación, haz clic en el botón para empezar tu test y descubrir las mejores opciones de carrera para ti.
-    </p>
-    """, unsafe_allow_html=True)
+        # Botón para ir a la siguiente pregunta
+        if st.button("Siguiente"):
+            st.session_state.step += 1
 
-    # Botón grande de CTA (Call to Action) para comenzar el test
-    if st.button("¡Comenzar Test!"):
-        st.write("Aquí comenzarías el test... (esta función puede ser reemplazada por el formulario del test)")
-        # Aquí podrías redirigir al formulario de test real o cargar el formulario si es parte de esta misma aplicación.
-        # O cargar el formulario de preguntas que ya tienes en el código anterior.
+    # Pantalla final después de completar el test
+    elif st.session_state.step > len(questions):
+        st.title("¡Test completado!")
+        st.markdown("""
+        <p style='text-align: center; font-size: 1.2em;'>
+            ¡Gracias por completar el Test de Exploración de Carreras! Pronto recibirás los resultados que te guiarán hacia las mejores opciones de carrera.
+        </p>
+        """, unsafe_allow_html=True)
+
+        # Reiniciar el test
+        if st.button("Volver al inicio"):
+            st.session_state.step = 0  # Volver a la pantalla de bienvenida
 
 if __name__ == "__main__":
     main()
