@@ -2,7 +2,7 @@ import streamlit as st
 from utils.graphics import generate_plotly_chart
 
 def show_results_page():
-    st.markdown("<h1 style='color:#467BE9; text-align:center;'>Resultados del Test</h1>", unsafe_allow_html=True)
+    st.markdown("<h1>Resultados del Test</h1>", unsafe_allow_html=True)
 
     # Datos de ejemplo
     data = {
@@ -23,8 +23,10 @@ def show_results_page():
         st.write(f"Nivel de avance tecnológico: **14%**")
 
     with col2:
+        st.markdown("<div class='plot-container'>", unsafe_allow_html=True)
         fig = generate_plotly_chart(data)
         st.plotly_chart(fig, use_container_width=True)
+        st.markdown("</div>", unsafe_allow_html=True)
 
     st.write("Comparativa de Crecimiento por Industria")
 
