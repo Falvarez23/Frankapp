@@ -1,13 +1,20 @@
 import streamlit as st
 
 def main():
+    # Configuración de la página
     st.set_page_config(page_title="Formulario de Interés", page_icon=":memo:", layout="centered")
 
+    # Aplicar estilo CSS
     st.markdown(
         """
         <style>
         .main {
             background-color: #FFFFFF;
+            color: #000000;
+        }
+        .stImage {
+            margin: 0 auto;
+            display: block;
         }
         </style>
         """,
@@ -15,8 +22,9 @@ def main():
     )
 
     # Logo
-    st.image("ruta/al/logo.png", width=200)  # Ajusta la ruta y el tamaño del logo según sea necesario
+    st.image("logo.png", width=200)  # Ajusta la ruta y el tamaño del logo según sea necesario
 
+    # Título
     st.title("Formulario de Interés")
 
     # Preguntas del formulario
@@ -43,6 +51,7 @@ def main():
     # Almacenar respuestas
     responses = []
 
+    # Encabezado del formulario
     st.header("Responde las siguientes preguntas:")
 
     # Iterar sobre las preguntas para crear los campos del formulario
