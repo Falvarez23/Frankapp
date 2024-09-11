@@ -4,7 +4,7 @@ def main():
     # Configuración de la página
     st.set_page_config(page_title="Test de Exploración de Carreras", page_icon=":memo:", layout="centered")
 
-    # Estilo CSS para mantener los colores y el formato profesional
+    # Estilo CSS actualizado para modernizar el diseño y darle más espacio
     st.markdown(
         """
         <style>
@@ -14,19 +14,29 @@ def main():
             font-family: 'Arial', sans-serif; /* Fuente clara y legible */
         }
 
+        /* Estilo para el contenedor centrado */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 50px 30px;
+            background-color: #ffffff; /* Fondo blanco para el contenido */
+            border-radius: 10px; /* Bordes redondeados */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+        }
+
         /* Título principal */
         h1 {
             color: #1F1F1F; /* Negro oscuro */
-            font-size: 3em; /* Tamaño grande para el título */
+            font-size: 2.5em; /* Tamaño grande para el título */
             font-weight: 700; /* Negrita */
             text-align: center;
-            margin-bottom: 0;
+            margin-bottom: 20px; /* Espaciado inferior */
         }
 
         /* Subtítulo ajustado */
         h2 {
-            color: #333333 !important; /* Gris oscuro */
-            font-size: 1.8em; /* Tamaño mayor para el subtítulo */
+            color: #666666 !important; /* Gris suave */
+            font-size: 1.5em; /* Tamaño mayor para el subtítulo */
             font-weight: 400;
             text-align: center;
             margin-top: 0; /* Quitar margen superior */
@@ -72,10 +82,14 @@ def main():
             font-size: 1em; /* Tamaño de las opciones de respuesta */
             color: #333333; /* Gris oscuro */
         }
+
         </style>
         """,
         unsafe_allow_html=True
     )
+
+    # Contenido principal centrado y con más espacio
+    st.markdown("<div class='container'>", unsafe_allow_html=True)
 
     # Definir el estado inicial de la aplicación
     if 'step' not in st.session_state:
@@ -153,6 +167,8 @@ def main():
         if st.button("Volver al inicio"):
             st.session_state.step = 0  # Volver a la pantalla de bienvenida
 
+    # Cerrar contenedor
+    st.markdown("</div>", unsafe_allow_html=True)
+
 if __name__ == "__main__":
     main()
-
