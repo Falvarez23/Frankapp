@@ -54,7 +54,7 @@ def main():
 
         .result-item {
             font-size: 1.2em;
-            color: #000000; /* Negro para el texto */
+            color: #FFFFFF; /* Negro para el texto */
             line-height: 1.6;
         }
 
