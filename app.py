@@ -1,64 +1,30 @@
 import streamlit as st
-from pages import test, results
 
-def main():
-    # Configuración de la página
-    st.set_page_config(page_title="Test de Exploración de Carreras", page_icon=":memo:", layout="centered")
-
-    # Estilo CSS personalizado
-    st.markdown("""
+def show_test_page():
+    st.markdown(
+        """
         <style>
-        /* Fondo general de la página */
-        .main {
-            background-color: #F9F7F4; /* Blanco neutro de la paleta */
+        /* Estilo general para el texto */
+        h1, h2, h3, h4, p, label {
+            color: #000000 !important; /* Cambiar el color del texto a negro */
         }
-        
-        /* Estilo para el título principal */
-        h1 {
-            color: #467BE9; /* Azul Scholarshine */
-            text-align: center;
-        }
-        
-        /* Estilo para los subtítulos */
-        h2 {
-            color: #467BE9; /* Azul Scholarshine */
-        }
-        
-        /* Estilo para los botones */
+
+        /* Forzar color negro en botones de texto */
         .stButton button {
-            background-color: #FF5A72; /* Rosa Pink Future */
-            color: white;
-            border-radius: 10px;
+            color: #FFFFFF !important; /* Cambia el color del texto en el botón */
+            background-color: #FF5A72; /* Fondo rosa */
         }
 
-        /* Barra de progreso */
-        .stProgress .css-1f7rzyt {
-            background-color: #467BE9 !important; /* Azul Scholarshine */
+        /* Si hay algún texto específico que sigue siendo blanco */
+        .stMarkdown p {
+            color: #000000 !important; /* Texto en negro */
         }
-
-        /* Fondo de los gráficos */
-        .plot-container {
-            background-color: #FDE192; /* Fondo amarillo suave */
-            padding: 10px;
-            border-radius: 10px;
-        }
-
         </style>
-    """, unsafe_allow_html=True)
+        """, unsafe_allow_html=True
+    )
 
-    # Crear navegación entre páginas
-    pages = {
-        "Test de Exploración": test.show_test_page,
-        "Resultados": results.show_results_page
-    }
+    st.markdown("<h1 style='color:#467BE9; text-align:center;'>Test de Exploración de Carreras</h1>", unsafe_allow_html=True)
 
-    # Menú de navegación
-    st.sidebar.title("Navega por la app")
-    page = st.sidebar.selectbox("Selecciona una página", list(pages.keys()))
-
-    # Mostrar la página seleccionada
-    pages[page]()
-
-if __name__ == "__main__":
-    main()
-
+    st.write("Este es un ejemplo de texto que debería aparecer en negro.")
+    
+    st.button("Botón de prueba")
