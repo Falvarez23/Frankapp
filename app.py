@@ -4,7 +4,7 @@ def main():
     # Configuración de la página
     st.set_page_config(page_title="Test de Exploración de Carreras", page_icon=":memo:", layout="centered")
 
-    # Estilo CSS actualizado para modernizar el diseño y darle más estructura
+    # Estilo CSS actualizado para cambiar colores y mejorar el diseño
     st.markdown(
         """
         <style>
@@ -33,9 +33,9 @@ def main():
             margin-bottom: 20px; /* Espaciado inferior */
         }
 
-        /* Subtítulo ajustado */
+        /* Subtítulo en azul */
         h2 {
-            color: #2168da !important; /* Azul visible para el subtítulo */
+            color: #0056b3 !important; /* Azul visible para el subtítulo */
             font-size: 1.8em; /* Tamaño mayor para el subtítulo */
             font-weight: 500;
             text-align: left;
@@ -43,7 +43,7 @@ def main():
             margin-bottom: 20px; /* Aumentar espaciado inferior */
         }
 
-        /* Sección de resultados generales */
+        /* Sección de resultados generales con color azul para texto */
         .result-section {
             background-color: #f0f4ff; /* Fondo suave */
             padding: 20px;
@@ -53,7 +53,7 @@ def main():
 
         .result-item {
             font-size: 1.2em;
-            color: #333;
+            color: #0056b3; /* Azul para todo el texto dentro de los contenedores */
             line-height: 1.6;
         }
 
