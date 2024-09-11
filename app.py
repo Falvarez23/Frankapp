@@ -9,11 +9,15 @@ def main():
         """
         <style>
         .main {
-            background-color: #FFFFFF;
-            color: #0000FF; /* Texto azul */
+            background-color: #FFFFFF; /* Fondo blanco */
+            color: #333333; /* Texto gris oscuro para mejor contraste */
         }
         .stRadio label {
-            color: #0000FF; /* Texto azul para las opciones de radio */
+            color: #333333; /* Texto gris oscuro para las opciones de radio */
+        }
+        .stButton button {
+            background-color: #007BFF; /* Botón azul */
+            color: #FFFFFF; /* Texto blanco en el botón */
         }
         </style>
         """,
