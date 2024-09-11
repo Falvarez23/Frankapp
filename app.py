@@ -4,7 +4,7 @@ def main():
     # Configuración de la página
     st.set_page_config(page_title="Test de Exploración de Carreras", page_icon=":memo:", layout="centered")
 
-    # Estilo CSS actualizado para modernizar el diseño y darle más espacio
+    # Estilo CSS actualizado para modernizar el diseño y darle más estructura
     st.markdown(
         """
         <style>
@@ -35,22 +35,31 @@ def main():
 
         /* Subtítulo ajustado */
         h2 {
-            color: #ff7f50 !important; /* Color coral más visible */
-            font-size: 1.5em; /* Tamaño mayor para el subtítulo */
-            font-weight: 400;
-            text-align: center;
-            margin-top: 0; /* Quitar margen superior */
-            margin-bottom: 30px; /* Aumentar espaciado inferior */
+            color: #0056b3 !important; /* Azul visible para el subtítulo */
+            font-size: 1.8em; /* Tamaño mayor para el subtítulo */
+            font-weight: 500;
+            text-align: left;
+            margin-top: 20px; /* Espaciado superior */
+            margin-bottom: 20px; /* Aumentar espaciado inferior */
         }
 
-        /* Texto descriptivo */
-        p {
-            font-size: 1.2em; /* Tamaño del texto para instrucciones */
-            color: #333333; /* Gris oscuro */
-            text-align: center;
+        /* Sección de resultados generales */
+        .result-section {
+            background-color: #f0f4ff; /* Fondo suave */
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+
+        .result-item {
+            font-size: 1.2em;
+            color: #333;
             line-height: 1.6;
-            max-width: 800px;
-            margin: 0 auto 40px; /* Centrado y con espaciado inferior */
+        }
+
+        .highlight {
+            font-weight: 600;
+            color: #0056b3; /* Azul para destacar */
         }
 
         /* Botón de CTA (Call to Action) */
@@ -68,27 +77,12 @@ def main():
         .stButton button:hover {
             background-color: #2850b8; /* Botón más oscuro al pasar el mouse */
         }
-
-        /* Preguntas del formulario */
-        .stRadio label {
-            font-size: 1.1em; /* Tamaño del texto de las preguntas */
-            color: #333333; /* Gris oscuro */
-            font-weight: 500; /* Seminegrita para mejor legibilidad */
-            margin-bottom: 15px; /* Espaciado entre preguntas */
-        }
-
-        /* Opciones de radio */
-        .stRadio div {
-            font-size: 1em; /* Tamaño de las opciones de respuesta */
-            color: #333333; /* Gris oscuro */
-        }
-
         </style>
         """,
         unsafe_allow_html=True
     )
 
-    # Contenido principal centrado y con más espacio
+    # Contenedor principal
     st.markdown("<div class='container'>", unsafe_allow_html=True)
 
     # Definir el estado inicial de la aplicación
@@ -158,37 +152,61 @@ def main():
     elif st.session_state.step > len(questions):
         st.title("¡Resultados del Test!")
         st.write("**Nombre del usuario**: Juan Pérez")
-        
-        # Resumen general
+
+        # Resumen general en una caja
         st.subheader("Resumen General")
-        st.write("Crecimiento proyectado de tu industria: **75%**")
-        st.write("Crecimiento proyectado de profesionales en tu industria: **82%**")
-        st.write("Demanda laboral actual: **54%**")
-        st.write("Nivel de automatización en tu industria: **99%**")
-        st.write("Nivel de avance tecnológico en tu industria: **14%**")
+        st.markdown("<div class='result-section'>", unsafe_allow_html=True)
+        st.markdown("""
+        <p class="result-item">Crecimiento proyectado de tu industria: <span class="highlight">75%</span></p>
+        <p class="result-item">Crecimiento proyectado de profesionales en tu industria: <span class="highlight">82%</span></p>
+        <p class="result-item">Demanda laboral actual: <span class="highlight">54%</span></p>
+        <p class="result-item">Nivel de automatización en tu industria: <span class="highlight">99%</span></p>
+        <p class="result-item">Nivel de avance tecnológico en tu industria: <span class="highlight">14%</span></p>
+        """, unsafe_allow_html=True)
+        st.markdown("</div>", unsafe_allow_html=True)
 
         # Detalles por áreas
         st.subheader("Detalles por áreas")
 
+        # Crecimiento Profesional en una caja
+        st.markdown("<div class='result-section'>", unsafe_allow_html=True)
         st.write("**Crecimiento Profesional**")
-        st.write("Crecimiento proyectado: **82%**")
-        st.write("Comparativa: Tu proyección está por encima del promedio del sector en tu país, que es del 70%.")
-        st.write("Recomendación: Con esta alta proyección de crecimiento, te sugerimos centrarte en el desarrollo de habilidades tecnológicas avanzadas para mantenerte competitivo en un entorno de alta automatización.")
+        st.markdown("""
+        <p class="result-item">Crecimiento proyectado: <span class="highlight">82%</span></p>
+        <p class="result-item">Comparativa: Tu proyección está por encima del promedio del sector en tu país, que es del 70%.</p>
+        <p class="result-item">Recomendación: Con esta alta proyección de crecimiento, te sugerimos centrarte en el desarrollo de habilidades tecnológicas avanzadas para mantenerte competitivo en un entorno de alta automatización.</p>
+        """, unsafe_allow_html=True)
+        st.markdown("</div>", unsafe_allow_html=True)
 
+        # Demanda Laboral en una caja
+        st.markdown("<div class='result-section'>", unsafe_allow_html=True)
         st.write("**Demanda Laboral**")
-        st.write("Demanda actual: **54%**")
-        st.write("Comparativa: La demanda en tu industria está en un nivel promedio. Esto significa que hay oportunidades, pero es importante diferenciarse de la competencia.")
-        st.write("Recomendación: Refuerza tus habilidades técnicas a través de certificaciones o especializaciones para aumentar tu atractivo ante posibles empleadores.")
+        st.markdown("""
+        <p class="result-item">Demanda actual: <span class="highlight">54%</span></p>
+        <p class="result-item">Comparativa: La demanda en tu industria está en un nivel promedio. Esto significa que hay oportunidades, pero es importante diferenciarse de la competencia.</p>
+        <p class="result-item">Recomendación: Refuerza tus habilidades técnicas a través de certificaciones o especializaciones para aumentar tu atractivo ante posibles empleadores.</p>
+        """, unsafe_allow_html=True)
+        st.markdown("</div>", unsafe_allow_html=True)
 
+        # Tasa de Automatización en una caja
+        st.markdown("<div class='result-section'>", unsafe_allow_html=True)
         st.write("**Tasa de Automatización**")
-        st.write("Tasa de automatización: **99%**")
-        st.write("Comentario: La automatización es extremadamente alta en tu sector. Esto sugiere que las tareas rutinarias están siendo reemplazadas por tecnologías.")
-        st.write("Recomendación: Enfócate en desarrollar habilidades que complementen las tecnologías, como la creatividad, el liderazgo y la gestión de proyectos tecnológicos.")
+        st.markdown("""
+        <p class="result-item">Tasa de automatización: <span class="highlight">99%</span></p>
+        <p class="result-item">Comentario: La automatización es extremadamente alta en tu sector. Esto sugiere que las tareas rutinarias están siendo reemplazadas por tecnologías.</p>
+        <p class="result-item">Recomendación: Enfócate en desarrollar habilidades que complementen las tecnologías, como la creatividad, el liderazgo y la gestión de proyectos tecnológicos.</p>
+        """, unsafe_allow_html=True)
+        st.markdown("</div>", unsafe_allow_html=True)
 
+        # Tasa de Avance Tecnológico en una caja
+        st.markdown("<div class='result-section'>", unsafe_allow_html=True)
         st.write("**Tasa de Avance Tecnológico**")
-        st.write("Tasa de avance tecnológico: **14%**")
-        st.write("Comentario: Aunque tu industria tiene un alto nivel de automatización, el avance tecnológico está todavía en etapas tempranas.")
-        st.write("Recomendación: Aprovecha este periodo para convertirte en un líder en la adopción de nuevas tecnologías, buscando formación en áreas emergentes como inteligencia artificial o blockchain.")
+        st.markdown("""
+        <p class="result-item">Tasa de avance tecnológico: <span class="highlight">14%</span></p>
+        <p class="result-item">Comentario: Aunque tu industria tiene un alto nivel de automatización, el avance tecnológico está todavía en etapas tempranas.</p>
+        <p class="result-item">Recomendación: Aprovecha este periodo para convertirte en un líder en la adopción de nuevas tecnologías, buscando formación en áreas emergentes como inteligencia artificial o blockchain.</p>
+        """, unsafe_allow_html=True)
+        st.markdown("</div>", unsafe_allow_html=True)
 
         # Comparativa de Crecimiento por Industria
         st.subheader("Comparativa de Crecimiento por Industria")
