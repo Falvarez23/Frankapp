@@ -35,7 +35,7 @@ def main():
 
         /* Subtítulo ajustado */
         h2 {
-            color: #666666 !important; /* Gris suave */
+            color: #ff7f50 !important; /* Color coral más visible */
             font-size: 1.5em; /* Tamaño mayor para el subtítulo */
             font-weight: 400;
             text-align: center;
@@ -163,7 +163,11 @@ def main():
         </p>
         """, unsafe_allow_html=True)
 
-        # Reiniciar el test
+        # Botón para ver los resultados (simulado)
+        if st.button("Ver resultados"):
+            st.write("Aquí se mostrarían los resultados del test...")
+
+        # Botón para volver al inicio
         if st.button("Volver al inicio"):
             st.session_state.step = 0  # Volver a la pantalla de bienvenida
 
