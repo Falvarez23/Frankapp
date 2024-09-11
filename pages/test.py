@@ -49,9 +49,9 @@ def show_test_page():
         if st.button("Siguiente"):
             st.session_state.step += 1
 
-    else:
+    # Mostrar el botón para ver resultados al finalizar
+    elif st.session_state.step > len(questions):
         st.session_state.step = 0
-        st.write("Gracias por completar el test.")
-        st.write("Haz clic en el botón a continuación para ver tus resultados.")
+        st.write("¡Has completado el test! Haz clic en el botón a continuación para ver tus resultados.")
         if st.button("Ver Resultados"):
             st.session_state.step = len(questions) + 1  # Avanzar a la página de resultados
