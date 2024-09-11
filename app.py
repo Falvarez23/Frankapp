@@ -4,28 +4,33 @@ def main():
     # Configuración de la página
     st.set_page_config(page_title="Formulario de Interés", page_icon=":memo:", layout="centered")
 
-    # Aplicar estilo CSS
+    # Aplicar estilo CSS para mejorar el contraste
     st.markdown(
         """
         <style>
         .main {
-            background-color: #FFFFFF; /* Fondo blanco */
-            color: #333333; /* Texto gris oscuro para mejor contraste */
+            background-color: #FFFFFF;
+            color: #333333; /* Texto gris oscuro */
+        }
+        h1 {
+            color: #000000 !important; /* Encabezado en negro */
+            font-weight: bold;
+        }
+        h2 {
+            color: #000000 !important; /* Subtítulo en negro */
+            font-weight: bold;
         }
         .stRadio label {
             color: #333333; /* Texto gris oscuro para las opciones de radio */
-        }
-        .stButton button {
-            background-color: #007BFF; /* Botón azul */
-            color: #FFFFFF; /* Texto blanco en el botón */
         }
         </style>
         """,
         unsafe_allow_html=True
     )
 
-    # Título
+    # Título y subtítulo con mejor contraste
     st.title("Formulario de Interés")
+    st.header("Responde las siguientes preguntas:")
 
     # Preguntas del formulario
     questions = [
@@ -50,8 +55,6 @@ def main():
 
     # Almacenar respuestas
     responses = {}
-
-    st.header("Responde las siguientes preguntas:")
 
     # Iterar sobre las preguntas para crear los campos del formulario
     for i, question in enumerate(questions):
