@@ -35,7 +35,7 @@ def main():
 
         /* Subtítulo ajustado */
         h2 {
-            color: #0056b3 !important; /* Azul visible para el subtítulo */
+            color: #2168da !important; /* Azul visible para el subtítulo */
             font-size: 1.8em; /* Tamaño mayor para el subtítulo */
             font-weight: 500;
             text-align: left;
