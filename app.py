@@ -10,7 +10,7 @@ def main():
         <style>
         /* Fondo general */
         .main {
-            background-color: #F0F0F0; /* Fondo gris claro */
+            background-color: #000000; /* Fondo gris claro */
             font-family: 'Arial', sans-serif; /* Fuente clara y legible */
         }
 
