@@ -1,0 +1,27 @@
+name: Deploy Streamlit App  # Nombre del workflow
+
+# Define cuándo debe ejecutarse la acción
+on:
+  push:  # Cada vez que haya un "push"
+    branches:
+      - main  # Indica que lo hará en la rama "main"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest  # Define el entorno (Ubuntu en este caso)
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2  # Baja el código del repositorio
+
+    - name: Set up Python
+      uses: actions/setup-python@v2  # Configura el entorno de Python
+      with:
+        python-version: '3.x'  # Usamos la versión 3.x de Python
+
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt  # Instala las dependencias del proyecto
+
+    - name: Deploy to Streamlit
+      run: streamlit run app.py  # Ejecuta la aplicación de Streamlit
