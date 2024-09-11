@@ -1,22 +1,57 @@
 import streamlit as st
-from pages import test, results
 
-def main():
-    # Configuración de la página
-    st.set_page_config(page_title="Test de Exploración de Carreras", page_icon=":memo:", layout="centered")
+def show_test_page():
+    st.markdown("<h1 style='color:#467BE9; text-align:center;'>Test de Exploración de Carreras</h1>", unsafe_allow_html=True)
 
-    # Crear navegación entre páginas
-    pages = {
-        "Test de Exploración": test.show_test_page,
-        "Resultados": results.show_results_page
-    }
+    # Preguntas del test
+    questions = [
+        "¿Te sientes atraído por el campo de la robótica y la automatización?",
+        "¿Te atrae la idea de utilizar herramientas digitales para expresar tu creatividad?",
+        "¿Te entusiasma la idea de contribuir al desarrollo de videojuegos y experiencias interactivas?",
+        "¿Te apasiona la idea de mejorar la salud y el bienestar de las personas?",
+        "¿Te sientes motivado/a por trabajar en organizaciones sin fines de lucro dedicadas a problemas sociales?",
+        "¿Te apasiona la idea de crear tu propio negocio o trabajar en un entorno dinámico?",
+        "¿Te llama la atención el mundo del comercio electrónico?",
+        "¿Te apasiona la idea de contribuir a la educación de las personas?",
+        "¿Te resulta sorprendente el mundo del marketing y la publicidad?",
+        "¿Te apasiona la idea de trabajar en la creación y diseño de prendas de moda?"
+    ]
 
-    # Menú de navegación
-    st.sidebar.title("Navega por la app")
-    page = st.sidebar.selectbox("Selecciona una página", list(pages.keys()))
+    # Opciones de respuesta
+    options = [
+        "Bajo interés o potencial en la subárea.",
+        "Interés o potencial moderado en la subárea.",
+        "Alto interés o potencial en la subárea."
+    ]
 
-    # Mostrar la página seleccionada
-    pages[page]()
+    if 'step' not in st.session_state:
+        st.session_state.step = 0
 
-if __name__ == "__main__":
-    main()
+    # Pantalla inicial
+    if st.session_state.step == 0:
+        st.write("Este test está diseñado para ayudarte a identificar tus intereses y habilidades.")
+        if st.button("Comenzar Test", key="start_test"):
+            st.session_state.step = 1
+
+    # Preguntas del test con barra de progreso
+    elif st.session_state.step > 0 and st.session_state.step <= len(questions):
+        question_idx = st.session_state.step - 1
+        st.markdown(f"<h2 style='color:#467BE9;'>Pregunta {st.session_state.step} de {len(questions)}</h2>", unsafe_allow_html=True)
+
+        # Barra de progreso
+        progress = (st.session_state.step - 1) / len(questions)
+        st.progress(progress)
+
+        # Pregunta actual
+        st.write(questions[question_idx])
+        st.radio("Selecciona una opción:", options, key=f"response_{question_idx}")
+
+        if st.button("Siguiente", key=f"next_{question_idx}"):
+            st.session_state.step += 1
+
+    else:
+        st.session_state.step = 0
+        st.write("Gracias por completar el test.")
+        st.write("Haz clic en el botón a continuación para ver tus resultados.")
+        if st.button("Ver Resultados"):
+            st.session_state.step = len(questions) + 1  # Avanzar a la página de resultados
